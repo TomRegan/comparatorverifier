@@ -36,7 +36,7 @@ final class LawOfAntiSymmetry<T> implements ComparatorLaw<T> {
 
     @Override
     public void test(List<T> examples) {
-        // Anti-symmetry: for every pair (a, b), sign(comparator.compare(a, b)) == -sign(comparator.compare(b, a))
+        // for every pair (a, b), sign(comparator.compare(a, b)) == -sign(comparator.compare(b, a))
         for (T a : examples) {
             for (T b : examples.subList(1, examples.size())) {
                 int cmp = this.comparator.compare(a, b);
