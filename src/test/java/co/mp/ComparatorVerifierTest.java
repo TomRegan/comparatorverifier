@@ -1,11 +1,7 @@
 package co.mp;
 
-import co.mp.comparator.ViolatesAntiSymmetry;
-import co.mp.comparator.ViolatesConsistency;
-import co.mp.comparator.ViolatesReflexivity;
-import co.mp.comparator.ViolatesTransitivity;
-import co.mp.value.ConsistentValue;
-import co.mp.value.SimpleValue;
+import static co.mp.Value.*;
+import static co.mp.Violation.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -41,10 +37,11 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_detect_when_transitivity_is_violated() {
-        // use carefully chosen values that produce a cyclic ordering modulo 3, as follows
+        // use carefully chosen values that produce a cyclic ordering, as follows
         var a = new SimpleValue(3);  //        3 % 3 = 6 % 3 = 0   -> A(3%3)0, B(5+1%3)0 => 1
         var b = new SimpleValue(5);  //        5 % 3 = 5 % 3 = 2   -> B(5%3)2, C(4+1%3)2 => 1
         var c = new SimpleValue(4);  // (3 % 3 = 0) != (5 % 3 = 2) -> A(3%3)0, C(4+1%3)2 => -1
+        // see comments in ViolatesTransitivity
         var error = assertThrows(AssertionError.class, () ->
                 ComparatorVerifier.forComparator(ViolatesTransitivity.class)
                         .withExamples(a, b, c)
