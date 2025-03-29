@@ -1,24 +1,22 @@
-package co.mp;
+package co.mp.internal;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Reflexivity is a fundamental property of a {@link java.util.Comparator}. It requires that every element is
- * considered equal to itself. In other words, for any element <code>x</code>,
- * <code>compare(x, x)</code> must return <code>0</code>.
- * <p>
+ * considered equal to itself. In other words, for any element {@code x},
+ * {@code compare(x, x)} must return {@code 0}. <p>
  * This ensures that an element does not compare as greater than or less than itself.
- * </p>
  *
  * @see java.util.Comparator
  */
-
-final class LawOfReflexivity<T> implements ComparatorLaw<T> {
+public final class IsReflexive<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
-    public LawOfReflexivity(Comparator<T> comparator) {
-        this.comparator = comparator;
+    public IsReflexive(Comparator<T> comparator) {
+        this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
     @Override

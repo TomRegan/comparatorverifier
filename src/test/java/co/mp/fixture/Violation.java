@@ -1,20 +1,46 @@
-package co.mp;
+package co.mp.fixture;
+
+import co.mp.fixture.Value.ConsistentValue;
+import co.mp.fixture.Value.SimpleValue;
 
 import java.util.Comparator;
 
-interface Violation {
+public interface Violation {
+
+    /**
+     * A {@link Comparator} should be Serializable for compatibility with Collections
+     * Implementations. This Violation simple doesn't implement Serializable and is
+     * intended to make testing clearer and easier.
+     */
+    final class ViolatesSerializable implements Comparator<Integer> {
+
+        @Override
+        public int compare(Integer a, Integer b) {
+            return a.compareTo(b);
+        }
+    }
+
+    final class ViolatesConsistentWithEquals implements Comparator<SimpleValue> {
+
+        @SuppressWarnings("ComparatorMethodParameterNotUsed")
+        @Override
+        public int compare(SimpleValue a, SimpleValue b) {
+            return 1;
+        }
+    }
+
     /**
      * A {@link Comparator} implementation that violates the anti-symmetry rule.
-     * @implNote
-     * This comparator defines an ordering where any two distinct instances are
+     *
+     * @implNote This comparator defines an ordering where any two distinct instances are
      * considered unequal, but in a non-symmetric manner. Specifically, it always
      * returns {@code 1} for any two distinct objects, which means {@code compare(a, b) > 0}
      * does not imply {@code compare(b, a) < 0}, thereby violating antisymmetry.
      */
-    final class ViolatesAntiSymmetry implements Comparator<Value.SimpleValue> {
+    final class ViolatesAntiSymmetry implements Comparator<SimpleValue> {
         @SuppressWarnings("ComparatorMethodParameterNotUsed")
         @Override
-        public int compare(Value.SimpleValue a, Value.SimpleValue b) {
+        public int compare(SimpleValue a, SimpleValue b) {
             // self-comparison returns 0 to satisfy reflexivity
             if (a == b) {
                 return 0;
@@ -26,14 +52,14 @@ interface Violation {
 
     /**
      * A comparator that violates the consistency requirement of {@link Comparator}.
-     * @implNote
-     * This comparator considers two {@code ConsistentValue} objects equal if they have the same
+     *
+     * @implNote This comparator considers two {@code ConsistentValue} objects equal if they have the same
      * {@code base} value, ignoring the {@code offset} in such cases. However, when the {@code base}
      * values differ, it sorts based on the sum of {@code base} and {@code offset}.
      */
-    final class ViolatesConsistency implements Comparator<Value.ConsistentValue> {
+    final class ViolatesConsistency implements Comparator<ConsistentValue> {
         @Override
-        public int compare(Value.ConsistentValue a, Value.ConsistentValue b) {
+        public int compare(ConsistentValue a, ConsistentValue b) {
             // if base values are equal, return 0, ignoring offset
             if (a.base() == b.base()) {
                 return 0;
@@ -45,16 +71,16 @@ interface Violation {
 
     /**
      * This {@link Comparator} implementation intentionally violates the reflexivity property of comparison.
-     * @implNote
-     * This comparator defines an inconsistent comparison rule where comparing an object
+     *
+     * @implNote This comparator defines an inconsistent comparison rule where comparing an object
      * with itself (`a == b`) does not return `0`, but instead returns `1`. This breaks
      * the expected contract of {@link Comparator}, which requires that
      * {@code compare(x, x) == 0} for all {@code x}.
      */
-    final class ViolatesReflexivity implements Comparator<Value.SimpleValue> {
+    final class ViolatesReflexivity implements Comparator<SimpleValue> {
         @SuppressWarnings("ComparatorMethodParameterNotUsed")
         @Override
-        public int compare(Value.SimpleValue a, Value.SimpleValue b) {
+        public int compare(SimpleValue a, SimpleValue b) {
             // violate reflexivity if comparing the same instance
             if (a == b) {
                 return 1;
@@ -67,17 +93,17 @@ interface Violation {
     /**
      * This {@link Comparator} implementation deliberately violates the transitivity contract.
      * It introduces a cyclic ordering based on an assumed comparison set of 3.
-     * @implNote
-     * Inputs are grouped into one of three equivalence classes, and rather than comparing
+     *
+     * @implNote Inputs are grouped into one of three equivalence classes, and rather than comparing
      * absolute values, the comparator looks at which class an element falls into.
      * A three-way comparison is expected to test transitivity, so three groups are configured.
      * While violating transitivity, this comparator will comply with the contract for
      * pair-wise comparisons, antisymmetry, consistency, and reflexivity.
      */
-    final class ViolatesTransitivity implements Comparator<Value.SimpleValue> {
+    final class ViolatesTransitivity implements Comparator<SimpleValue> {
 
         @Override
-        public int compare(Value.SimpleValue a, Value.SimpleValue b) {
+        public int compare(SimpleValue a, SimpleValue b) {
             // THE NUMBER 3
             // 3 is the smallest non-transitive cycle for three elements, a, b, c
             // if we'd used a smaller number we'd have inconsistency between elements,

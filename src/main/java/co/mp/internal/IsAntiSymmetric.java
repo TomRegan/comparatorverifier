@@ -1,37 +1,31 @@
-package co.mp;
+package co.mp.internal;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Anti‑symmetry is a fundamental property of a {@link java.util.Comparator}'s contract. It states that for any two
- * objects <code>x</code> and <code>y</code>, the signum of {@code compare(x, y)} must be the negation of the signum
- * of {@code compare(y, x)}.
- * <p>
+ * objects {@code x} and {@code y}, the signum of {@code compare(x, y)} must be the negation of the signum
+ * of {@code compare(y, x)}. <p>
  * In mathematical terms, this is expressed as:
- * </p>
  * <pre>
  *   sgn(compare(x, y)) == -sgn(compare(y, x))
  * </pre>
- * <p>
- * This ensures that if <code>x</code> is considered greater than <code>y</code> (i.e. {@code compare(x, y)}
- * returns a positive value), then <code>y</code> must be considered less than <code>x</code> (i.e.
- * {@code compare(y, x)} returns a negative value), and vice versa.
- * </p>
- * <p>
+ * This ensures that if {@code x} is considered greater than {@code y} (i.e. {@code compare(x, y)}
+ * returns a positive value), then {@code y} must be considered less than {@code x} (i.e.
+ * {@code compare(y, x)} returns a negative value), and vice versa. <p>
  * Additionally, if either {@code compare(x, y)} or {@code compare(y, x)} throws an exception, the other must
- * throw an exception as well.
- * </p>
+ * throw an exception as well. </p>
  *
  * @see java.util.Comparator
  */
-
-final class LawOfAntiSymmetry<T> implements ComparatorLaw<T> {
+public final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
 
     private final Comparator<T> comparator;
 
-    public LawOfAntiSymmetry(Comparator<T> comparator) {
-        this.comparator = comparator;
+    public IsAntiSymmetric(Comparator<T> comparator) {
+        this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
     @Override

@@ -1,6 +1,6 @@
-package co.mp;
+package co.mp.fixture;
 
-interface Value {
+public interface Value {
     record ConsistentValue(int base, int offset) {
         @Override
         public boolean equals(Object o) {

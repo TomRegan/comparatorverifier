@@ -1,7 +1,7 @@
 package co.mp;
 
-import static co.mp.Value.*;
-import static co.mp.Violation.*;
+import static co.mp.fixture.Value.*;
+import static co.mp.fixture.Violation.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,6 +16,7 @@ final class ComparatorVerifierTest {
         var a = new SimpleValue(1);
         var error = assertThrows(AssertionError.class, () ->
                 ComparatorVerifier.forComparator(ViolatesReflexivity.class)
+                        .permissive() // also violates consistency with equals, so allow this
                         .withExamples(a, a)
                         .verify());
         var expected = "Reflexivity violated for instance " + a + ": compare(a, a) = 1";
@@ -67,6 +68,30 @@ final class ComparatorVerifierTest {
     }
 
     @Test
+    void it_should_detect_when_comparator_is_not_serializable() {
+        var error = assertThrows(AssertionError.class,
+                () -> ComparatorVerifier.forComparator(ViolatesSerializable.class)
+                        .strict()
+                        .verify());
+        var expected = "Comparator of type ViolatesSerializable does not implement Serializable";
+        assertEquals(expected, error.getMessage());
+    }
+
+    @Test
+    void it_should_detect_when_consistency_with_equals_is_violated() {
+        var a = new SimpleValue(1);
+        var b = new SimpleValue(1);
+        var error = assertThrows(AssertionError.class, () ->
+                ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
+                        .suppress(Warnings.TRANSITIVITY)
+                        .suppress(Warnings.SERIALIZABLE)
+                        .withExamples(a, b)
+                        .verify());
+        var expected = "Equality violated: compare is inconsistent with equals for instances " + a + " and " + b;
+        assertEquals(expected, error.getMessage());
+    }
+
+    @Test
     void it_should_accept_an_instance_of_a_comparator() {
         var integerComparator = new Comparator<Integer>() {
 
@@ -90,7 +115,7 @@ final class ComparatorVerifierTest {
                 () -> ComparatorVerifier.forComparator(Integer::compare, Integer.class)
                         .withGeneratedExamples(2)
                         .verify());
-        var expected = "Too few examples to test transitivity! Disable this test using withLawDisabled(Laws.TRANSITIVITY) " +
+        var expected = "Too few examples (2) to test transitivity! Disable this test using suppress(Warnings.TRANSITIVITY) " +
                 "or add more examples";
         assertEquals(expected, error.getMessage());
     }

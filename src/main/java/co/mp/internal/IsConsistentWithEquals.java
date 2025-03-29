@@ -1,11 +1,12 @@
-package co.mp;
+package co.mp.internal;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Consistency with equals is an often desirable property for a {@link java.util.Comparator}. It is generally
- * expected (but not strictly required) that if <code>compare(x, y) == 0</code> then <code>x.equals(y)</code>.
+ * expected (but not strictly required) that if {@code compare(x, y) == 0} then {@code x.equals(y)}.
  * <p>
  * When a comparator does not satisfy this condition, it should be clearly documented by stating:
  * <em>"Note: this comparator imposes orderings that are inconsistent with equals."</em>
@@ -15,12 +16,11 @@ import java.util.List;
  *
  * @see java.util.Comparator
  */
-
-final class LawOfEquality<T> implements ComparatorLaw<T> {
+public final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
-    public LawOfEquality(Comparator<T> comparator) {
-        this.comparator = comparator;
+    public IsConsistentWithEquals(Comparator<T> comparator) {
+        this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
     @Override
@@ -29,7 +29,7 @@ final class LawOfEquality<T> implements ComparatorLaw<T> {
             for (T b : examples.subList(1, examples.size())) {
                 int cmp = comparator.compare(a, b);
                 boolean isEqual = a.equals(b);
-                if (cmp == 0 && !isEqual) {
+                if (cmp == 0 && !isEqual || cmp != 0 && isEqual) {
                     throw new AssertionError("Equality violated: compare is inconsistent " +
                             "with equals for instances " + a + " and " + b);
                 }

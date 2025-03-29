@@ -1,33 +1,32 @@
-package co.mp;
+package co.mp.internal;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Transitivity is an essential property for establishing a consistent order. It requires that for any three
- * elements <code>x</code>, <code>y</code>, and <code>z</code>, if <code>compare(x, y) &gt; 0</code> and
- * <code>compare(y, z) &gt; 0</code>, then <code>compare(x, z) &gt; 0</code>.
- * <p>
- * Similarly, if <code>compare(x, y) &lt; 0</code> and <code>compare(y, z) &lt; 0</code>, then
- * <code>compare(x, z) &lt; 0</code> must hold. This law guarantees that the ordering is consistent across
- * multiple comparisons.
- * </p>
+ * elements {@code x}, {@code y}, and {@code z}, if {@code compare(x, y) &gt; 0} and
+ * {@code compare(y, z) &gt; 0}, then {@code compare(x, z) &gt; 0}. <p>
+ * Similarly, if {@code compare(x, y) &lt; 0} and {@code compare(y, z) &lt; 0}, then
+ * {@code compare(x, z) &lt; 0} must hold. This law guarantees that the ordering is consistent across
+ * multiple comparisons. </p>
  *
  * @see java.util.Comparator
  */
-
-final class LawOfTransitivity<T> implements ComparatorLaw<T> {
+public final class IsTransitive<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
-    LawOfTransitivity(Comparator<T> comparator) {
-        this.comparator = comparator;
+    IsTransitive(Comparator<T> comparator) {
+        this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
     @Override
     public void test(List<T> examples) {
         // if we have too few examples, we cannot test, so notify the user
         if (examples.size() < 3) {
-            throw new AssertionError("Too few examples to test transitivity! Disable this test using withLawDisabled(Laws.TRANSITIVITY) or add more examples");
+            throw new AssertionError("Too few examples (" + examples.size() + ") to test transitivity! " +
+                    "Disable this test using suppress(Warnings.TRANSITIVITY) or add more examples");
         }
         //  if a > b and b > c then a > c, and if a < b and b < c then a < c.
         for (T a : examples) {
