@@ -72,6 +72,11 @@
       <option name="url" value="https://nexus.ocado.tech/repository/maven-central" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="maven-releases@atm.nexus.ocado.tech" />
       <option name="name" value="maven-releases@atm.nexus.ocado.tech" />
       <option name="url" value="https://atm.nexus.ocado.tech/repository/maven-releases" />

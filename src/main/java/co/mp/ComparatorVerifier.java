@@ -2,12 +2,12 @@ package co.mp;
 
 import co.mp.internal.ComparatorPredicate;
 import co.mp.internal.Types;
-import static co.mp.internal.ComparatorPredicate.isAntiSymmetric;
-import static co.mp.internal.ComparatorPredicate.isConsistent;
-import static co.mp.internal.ComparatorPredicate.isConsistentWithEquals;
-import static co.mp.internal.ComparatorPredicate.isReflexive;
-import static co.mp.internal.ComparatorPredicate.isSerializable;
-import static co.mp.internal.ComparatorPredicate.isTransitive;
+import static co.mp.internal.Predicates.isAntiSymmetric;
+import static co.mp.internal.Predicates.isConsistent;
+import static co.mp.internal.Predicates.isConsistentWithEquals;
+import static co.mp.internal.Predicates.isReflexive;
+import static co.mp.internal.Predicates.isSerializable;
+import static co.mp.internal.Predicates.isTransitive;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Arrays;
