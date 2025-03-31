@@ -1,5 +1,7 @@
 package co.mp.internal.predicate;
 
+import co.mp.Warning;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +22,11 @@ import java.util.Objects;
  *
  * @see java.util.Comparator
  */
-public final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
+final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
 
     private final Comparator<T> comparator;
 
-    public IsAntiSymmetric(Comparator<T> comparator) {
+    IsAntiSymmetric(Comparator<T> comparator) {
         this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
@@ -41,5 +43,10 @@ public final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public Warning testsFor() {
+        return Warning.ANTI_SYMMETRY;
     }
 }

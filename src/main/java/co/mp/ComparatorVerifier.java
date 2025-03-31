@@ -31,7 +31,7 @@ public final class ComparatorVerifier {
     public static <T> ComparatorVerifierApi<T> forComparator(Class<? extends Comparator<T>> comparatorClass) {
         Comparator<T> comparator = Instancio.create(comparatorClass);
         Class<T> cls = Types.getComparatorType(comparatorClass);
-        return new ComparatorVerifierApi<>(comparator, cls);
+        return ComparatorVerifierApi.create(comparator, cls);
     }
 
     /**
@@ -45,7 +45,7 @@ public final class ComparatorVerifier {
     @SuppressWarnings("unchecked")
     public static <T> ComparatorVerifierApi<T> forComparator(Comparator<T> comparator) {
         var cls = Types.getComparatorType((Class<? extends Comparator<T>>) comparator.getClass());
-        return new ComparatorVerifierApi<>(comparator, cls);
+        return ComparatorVerifierApi.create(comparator, cls);
     }
 
     /**
@@ -58,6 +58,6 @@ public final class ComparatorVerifier {
      * @return An API for ComparatorVerifier.
      */
     public static <T> ComparatorVerifierApi<T> forComparator(Comparator<T> comparator, Class<T> cls) {
-        return new ComparatorVerifierApi<>(comparator, cls);
+        return ComparatorVerifierApi.create(comparator, cls);
     }
 }

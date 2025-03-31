@@ -1,5 +1,7 @@
 package co.mp.internal.predicate;
 
+import co.mp.Warning;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -12,10 +14,10 @@ import java.util.Objects;
  *
  * @see java.util.Comparator
  */
-public final class IsReflexive<T> implements ComparatorPredicate<T> {
+final class IsReflexive<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
-    public IsReflexive(Comparator<T> comparator) {
+    IsReflexive(Comparator<T> comparator) {
         this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
@@ -29,5 +31,10 @@ public final class IsReflexive<T> implements ComparatorPredicate<T> {
                 throw new AssertionError("Reflexivity violated for instance " + a + ": compare(a, a) = " + cmp);
             }
         }
+    }
+
+    @Override
+    public Warning testsFor() {
+        return Warning.REFLEXIVITY;
     }
 }

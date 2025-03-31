@@ -1,5 +1,7 @@
 package co.mp.internal.predicate;
 
+import co.mp.Warning;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +15,7 @@ import java.util.Objects;
  *
  * @see java.util.Comparator
  */
-public final class IsConsistent<T> implements ComparatorPredicate<T> {
+final class IsConsistent<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
     IsConsistent(Comparator<T> comparator) {
@@ -35,5 +37,10 @@ public final class IsConsistent<T> implements ComparatorPredicate<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public Warning testsFor() {
+        return Warning.CONSISTENCY;
     }
 }

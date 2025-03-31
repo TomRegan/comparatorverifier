@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @see java.util.Comparator
  */
-public final class IsTransitive<T> implements ComparatorPredicate<T> {
+final class IsTransitive<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
     IsTransitive(Comparator<T> comparator) {
@@ -50,5 +50,10 @@ public final class IsTransitive<T> implements ComparatorPredicate<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public Warning testsFor() {
+        return Warning.TRANSITIVITY;
     }
 }

@@ -1,5 +1,7 @@
 package co.mp.internal.predicate;
 
+import co.mp.Warning;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -16,10 +18,10 @@ import java.util.Objects;
  *
  * @see java.util.Comparator
  */
-public final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
+final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
-    public IsConsistentWithEquals(Comparator<T> comparator) {
+    IsConsistentWithEquals(Comparator<T> comparator) {
         this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
@@ -35,5 +37,10 @@ public final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public Warning testsFor() {
+        return Warning.CONSISTENT_WITH_EQUALS;
     }
 }

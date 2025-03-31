@@ -1,5 +1,7 @@
 package co.mp.internal.predicate;
 
+import co.mp.Warning;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -18,10 +20,10 @@ import java.util.TreeSet;
  * @implNote Simple serialization check, does not guarantee serializability of
  * class members
  */
-public final class IsSerializable<T> implements ComparatorPredicate<T> {
+final class IsSerializable<T> implements ComparatorPredicate<T> {
     private final Comparator<T> comparator;
 
-    public IsSerializable(Comparator<T> comparator) {
+    IsSerializable(Comparator<T> comparator) {
         this.comparator = Objects.requireNonNull(comparator, "comparator cannot be null");
     }
 
@@ -32,5 +34,10 @@ public final class IsSerializable<T> implements ComparatorPredicate<T> {
         }
         throw new AssertionError("Comparator of type " + comparator.getClass().getSimpleName()
                 + " does not implement Serializable");
+    }
+
+    @Override
+    public Warning testsFor() {
+        return Warning.SERIALIZABLE;
     }
 }

@@ -2,84 +2,67 @@ package co.mp.api;
 
 import co.mp.Warning;
 import co.mp.internal.context.Context;
-import co.mp.internal.context.CustomContext;
-import co.mp.internal.context.DefaultContext;
-import co.mp.internal.context.PermissiveContext;
-import co.mp.internal.context.StrictContext;
 import org.instancio.Instancio;
 
 import java.util.*;
 
 public final class ComparatorVerifierApi<T> {
 
-    private enum Mode {
-        STRICT,
-        DEFAULT,
-        PERMISSIVE,
-        CUSTOM
+    private final Class<T> cls;
+    private final Context<T> context;
+
+    /**
+     * Call {@link #create(Comparator, Class)} instead.
+     */
+    private ComparatorVerifierApi(Comparator<T> comparator, Class<T> cls) {
+        this.cls = cls;
+        this.context = Context.create(comparator);
     }
 
-    private final Comparator<T> comparator;
-    private final Class<T> cls;
-    private final List<T> examples = new LinkedList<>();
-    private final List<Warning> suppressedWarnings = new LinkedList<>();
-    private Mode mode = Mode.DEFAULT;
-
-    public ComparatorVerifierApi(Comparator<T> comparator, Class<T> cls) {
-        this.comparator = comparator;
-        this.cls = cls;
+    public static <T> ComparatorVerifierApi<T> create(Comparator<T> comparator, Class<T> cls) {
+        return new ComparatorVerifierApi<>(comparator, cls);
     }
 
     @SafeVarargs
     public final ComparatorVerifierApi<T> withExamples(T first, T second, T... examples) {
-        this.examples.add(Objects.requireNonNull(first));
-        this.examples.add(Objects.requireNonNull(second));
-        this.examples.addAll(Arrays.asList(examples));
+        context.examples(first, second, examples);
         return this;
     }
 
     public ComparatorVerifierApi<T> withGeneratedExamples(int count) {
         List<T> examples = Instancio.ofList(cls).size(count).create();
-        this.examples.addAll(examples);
+        context.examples(examples);
         return this;
     }
 
     public ComparatorVerifierApi<T> permissive() {
-        mode = Mode.PERMISSIVE;
+        context.toPermissiveContext();
         return this;
     }
 
     public ComparatorVerifierApi<T> strict() {
-        mode = Mode.STRICT;
+        context.toStrictContext();
         return this;
     }
 
     public ComparatorVerifierApi<T> suppress(Warning first, Warning... warnings) {
-        mode = Mode.CUSTOM;
-        this.suppressedWarnings.add(Objects.requireNonNull(first));
-        this.suppressedWarnings.addAll(Arrays.asList(warnings));
+        var suppressedWarnings = new ArrayList<Warning>();
+        suppressedWarnings.add(Objects.requireNonNull(first));
+        suppressedWarnings.addAll(Arrays.asList(warnings));
+        context.toCustomContext(suppressedWarnings);
         return this;
     }
 
     public void verify() {
-        if (examples.isEmpty()) {
+        if (context.getExamples().isEmpty()) {
             withGeneratedExamples(10);
         }
-        var context = createContext();
         performVerification(context);
-    }
-
-    private Context<T> createContext() {
-        return switch (mode) {
-            case STRICT -> new StrictContext<>(comparator, examples);
-            case DEFAULT -> new DefaultContext<>(comparator, examples);
-            case PERMISSIVE -> new PermissiveContext<>(comparator, examples);
-            case CUSTOM -> new CustomContext<>(comparator, examples, suppressedWarnings);
-        };
     }
 
     private void performVerification(Context<T> context) {
         var predicates = context.getPredicates();
+        var examples = context.getExamples();
         for (var predicate : predicates) {
             predicate.test(examples);
         }
