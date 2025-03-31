@@ -1,4 +1,4 @@
-package co.mp.internal;
+package co.mp.internal.predicate;
 
 import java.io.Serializable;
 import java.util.Comparator;

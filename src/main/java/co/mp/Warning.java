@@ -1,13 +1,14 @@
 package co.mp;
 
-import co.mp.internal.IsAntiSymmetric;
-import co.mp.internal.IsConsistent;
-import co.mp.internal.IsConsistentWithEquals;
-import co.mp.internal.IsReflexive;
-import co.mp.internal.IsSerializable;
-import co.mp.internal.IsTransitive;
+import co.mp.internal.predicate.IsAntiSymmetric;
+import co.mp.internal.predicate.IsConsistent;
+import co.mp.internal.predicate.IsConsistentWithEquals;
+import co.mp.internal.predicate.IsReflexive;
+import co.mp.internal.predicate.IsSerializable;
+import co.mp.internal.predicate.IsTransitive;
 
-public enum Warnings {
+@SuppressWarnings("unused")
+public enum Warning {
     ANTI_SYMMETRY(IsAntiSymmetric.class),
     CONSISTENCY(IsConsistent.class),
     CONSISTENT_WITH_EQUALS(IsConsistentWithEquals.class),
@@ -17,7 +18,7 @@ public enum Warnings {
 
     private final Class<?> validator;
 
-    Warnings(Class<?> validator) {
+    Warning(Class<?> validator) {
         this.validator = validator;
     }
 

@@ -1,181 +1,63 @@
 package co.mp;
 
-import co.mp.internal.ComparatorPredicate;
+import co.mp.api.ComparatorVerifierApi;
 import co.mp.internal.Types;
-import static co.mp.internal.Predicates.isAntiSymmetric;
-import static co.mp.internal.Predicates.isConsistent;
-import static co.mp.internal.Predicates.isConsistentWithEquals;
-import static co.mp.internal.Predicates.isReflexive;
-import static co.mp.internal.Predicates.isSerializable;
-import static co.mp.internal.Predicates.isTransitive;
-import static java.util.stream.Collectors.toSet;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
 import org.instancio.Instancio;
 
-public sealed abstract class ComparatorVerifier<T> {
-    private final List<ComparatorPredicate<T>> predicates;
-    private final List<T> examples = new LinkedList<>();
+import java.util.Comparator;
+
+/**
+ * {@code ComparatorVerifier} is intended for use in tests to validate the contract for Comparator is met. <p>
+ * The comparison contract is described in the Javadoc for {@link Comparator#compare(Object, Object)}, and
+ * additional guidance on consistency with equals, and serializability is given in the class Javadoc for
+ * {@link Comparator}.
+ */
+public final class ComparatorVerifier {
 
     /**
-     * Call {@code ComparatorVerifier#forComparator} instead.
+     * Call {@link ComparatorVerifier#forComparator} instead.
      */
-    private ComparatorVerifier(List<T> examples, List<ComparatorPredicate<T>> predicates) {
-        this.predicates = predicates;
-        this.examples.addAll(examples);
-    }
-
-    public static final class Configuration<T> {
-
-        private enum Mode {
-            STRICT,
-            DEFAULT,
-            PERMISSIVE,
-            CUSTOM
-        }
-
-        private final Comparator<T> comparator;
-        private final Class<T> cls;
-        private final List<T> examples = new LinkedList<>();
-        private final List<Warnings> suppressedWarnings = new LinkedList<>();
-        private Mode mode = Mode.DEFAULT;
-
-        public Configuration(Comparator<T> comparator, Class<T> cls) {
-            this.comparator = comparator;
-            this.cls = cls;
-        }
-
-        @SafeVarargs
-        public final Configuration<T> withExamples(T first, T second, T... examples) {
-            this.examples.add(Objects.requireNonNull(first));
-            this.examples.add(Objects.requireNonNull(second));
-            this.examples.addAll(Arrays.asList(examples));
-            return this;
-        }
-
-        public Configuration<T> withGeneratedExamples(int count) {
-            List<T> examples = Instancio.ofList(cls).size(count).create();
-            this.examples.addAll(examples);
-            return this;
-        }
-
-        public Configuration<T> permissive() {
-            mode = Mode.PERMISSIVE;
-            return this;
-        }
-
-        public Configuration<T> strict() {
-            mode = Mode.STRICT;
-            return this;
-        }
-
-        public Configuration<T> suppress(Warnings first, Warnings... warnings) {
-            mode = Mode.CUSTOM;
-            this.suppressedWarnings.add(Objects.requireNonNull(first));
-            this.suppressedWarnings.addAll(Arrays.asList(warnings));
-            return this;
-        }
-
-        public void verify() {
-            if (examples.isEmpty()) {
-                withGeneratedExamples(10);
-            }
-            var verifier = createVerifier();
-            verifier.verify();
-        }
-
-        private ComparatorVerifier<T> createVerifier() {
-            return switch (mode) {
-                case STRICT -> new StrictComparatorVerifier<>(comparator, examples);
-                case DEFAULT -> new DefaultComparatorVerifier<>(comparator, examples);
-                case PERMISSIVE -> new PermissiveComparatorVerifier<>(comparator, examples);
-                case CUSTOM -> new CustomComparatorVerifier<>(comparator, examples, suppressedWarnings);
-            };
-        }
-    }
-
-    static final class PermissiveComparatorVerifier<T> extends ComparatorVerifier<T> {
-        private PermissiveComparatorVerifier(Comparator<T> comparator, List<T> examples) {
-            super(examples, List.of(
-                    isReflexive(comparator),
-                    isAntiSymmetric(comparator),
-                    isTransitive(comparator),
-                    isConsistent(comparator)));
-        }
-    }
-
-    static final class DefaultComparatorVerifier<T> extends ComparatorVerifier<T> {
-        private DefaultComparatorVerifier(Comparator<T> comparator, List<T> examples) {
-            super(examples, List.of(
-                    isConsistentWithEquals(comparator),
-                    isReflexive(comparator),
-                    isAntiSymmetric(comparator),
-                    isTransitive(comparator),
-                    isConsistent(comparator)));
-        }
-    }
-
-    static final class StrictComparatorVerifier<T> extends ComparatorVerifier<T> {
-        private StrictComparatorVerifier(Comparator<T> comparator, List<T> examples) {
-            super(examples, List.of(
-                    isConsistentWithEquals(comparator),
-                    isReflexive(comparator),
-                    isAntiSymmetric(comparator),
-                    isTransitive(comparator),
-                    isConsistent(comparator),
-                    isSerializable(comparator)));
-        }
-    }
-
-    static final class CustomComparatorVerifier<T> extends ComparatorVerifier<T> {
-        private CustomComparatorVerifier(Comparator<T> comparator, List<T> examples, List<Warnings> suppressedWarnings) {
-            super(examples, Stream.of(
-                            isConsistentWithEquals(comparator),
-                            isReflexive(comparator),
-                            isAntiSymmetric(comparator),
-                            isTransitive(comparator),
-                            isConsistent(comparator),
-                            isSerializable(comparator))
-                    .filter(law -> !suppressedWarnings.stream().map(Warnings::getValidator)
-                            .collect(toSet())
-                            .contains(law.getClass()))
-                    .toList());
-        }
+    private ComparatorVerifier() {
     }
 
     /**
-     * Creates a ComparatorVerifier for the provided Comparator class
+     * Creates a ComparatorVerifier for the provided Comparator class.
      *
-     * @param comparatorClass the class of the Comparator
-     * @param <T>             the type being compared
-     * @return a new ComparatorVerifier instance
-     * @throws IllegalArgumentException if the type parameter for Comparator cannot be determined
+     * @param comparatorClass The class of the Comparator under test.
+     * @param <T>             The type being compared.
+     * @return An API for ComparatorVerifier.
+     * @throws IllegalArgumentException If the type parameter for Comparator cannot be determined.
      */
-    public static <T> Configuration<T> forComparator(Class<? extends Comparator<T>> comparatorClass) {
+    public static <T> ComparatorVerifierApi<T> forComparator(Class<? extends Comparator<T>> comparatorClass) {
         Comparator<T> comparator = Instancio.create(comparatorClass);
         Class<T> cls = Types.getComparatorType(comparatorClass);
-        return new Configuration<>(comparator, cls);
+        return new ComparatorVerifierApi<>(comparator, cls);
     }
 
+    /**
+     * Creates a ComparatorVerifier for the provided Comparator.
+     *
+     * @param comparator The comparator under test.
+     * @param <T>        The type being compared.
+     * @return An API for ComparatorVerifier.
+     * @throws IllegalArgumentException if the type parameter for Comparator cannot be determined
+     */
     @SuppressWarnings("unchecked")
-    public static <T> Configuration<T> forComparator(Comparator<T> comparator) {
+    public static <T> ComparatorVerifierApi<T> forComparator(Comparator<T> comparator) {
         var cls = Types.getComparatorType((Class<? extends Comparator<T>>) comparator.getClass());
-        return new Configuration<>(comparator, cls);
+        return new ComparatorVerifierApi<>(comparator, cls);
     }
 
-    public static <T> Configuration<T> forComparator(Comparator<T> comparator, Class<T> cls) {
-        return new Configuration<>(comparator, cls);
-    }
-
-    private void verify() {
-        for (var law : predicates) {
-            law.test(examples);
-        }
+    /**
+     * Creates a ComparatorVerifier for the provided Comparator and Comparable class. <p>
+     * For use when the comparable type cannot be determined from the Comparator.
+     *
+     * @param comparator The comparator under test.
+     * @param cls        The class of the type being compared.
+     * @param <T>        The type being compared.
+     * @return An API for ComparatorVerifier.
+     */
+    public static <T> ComparatorVerifierApi<T> forComparator(Comparator<T> comparator, Class<T> cls) {
+        return new ComparatorVerifierApi<>(comparator, cls);
     }
 }

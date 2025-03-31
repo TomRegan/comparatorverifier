@@ -14,6 +14,6 @@ public final class Types {
                 }
             }
         }
-        throw new IllegalArgumentException("Cannot determine comparator type parameter for " + comparatorClass.getName());
+        throw new IllegalArgumentException("Cannot determine comparator type parameter for " + comparatorClass.getSimpleName());
     }
 }

@@ -83,8 +83,7 @@ final class ComparatorVerifierTest {
         var b = new SimpleValue(1);
         var error = assertThrows(AssertionError.class, () ->
                 ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
-                        .suppress(Warnings.TRANSITIVITY)
-                        .suppress(Warnings.SERIALIZABLE)
+                        .suppress(Warning.TRANSITIVITY, Warning.SERIALIZABLE)
                         .withExamples(a, b)
                         .verify());
         var expected = "Equality violated: compare is inconsistent with equals for instances " + a + " and " + b;
@@ -115,7 +114,7 @@ final class ComparatorVerifierTest {
                 () -> ComparatorVerifier.forComparator(Integer::compare, Integer.class)
                         .withGeneratedExamples(2)
                         .verify());
-        var expected = "Too few examples (2) to test transitivity! Disable this test using suppress(Warnings.TRANSITIVITY) " +
+        var expected = "Too few examples (2) to test transitivity! Disable this test using suppress(Warning.TRANSITIVITY) " +
                 "or add more examples";
         assertEquals(expected, error.getMessage());
     }
