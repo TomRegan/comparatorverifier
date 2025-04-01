@@ -2,21 +2,21 @@ package co.mp.api;
 
 import co.mp.Warning;
 import co.mp.internal.context.Context;
-import org.instancio.Instancio;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Objects;
 
 public final class ComparatorVerifierApi<T> {
 
-    private final Class<T> cls;
     private final Context<T> context;
 
     /**
      * Call {@link #create(Comparator, Class)} instead.
      */
     private ComparatorVerifierApi(Comparator<T> comparator, Class<T> cls) {
-        this.cls = cls;
-        this.context = Context.create(comparator);
+        this.context = Context.create(comparator, cls);
     }
 
     public static <T> ComparatorVerifierApi<T> create(Comparator<T> comparator, Class<T> cls) {
@@ -30,41 +30,30 @@ public final class ComparatorVerifierApi<T> {
     }
 
     public ComparatorVerifierApi<T> withGeneratedExamples(int count) {
-        List<T> examples = Instancio.ofList(cls).size(count).create();
-        context.examples(examples);
+        context.examples(count);
         return this;
     }
 
     public ComparatorVerifierApi<T> permissive() {
-        context.toPermissiveContext();
+        context.asPermissiveContext();
         return this;
     }
 
     public ComparatorVerifierApi<T> strict() {
-        context.toStrictContext();
+        context.asStrictContext();
         return this;
     }
 
-    public ComparatorVerifierApi<T> suppress(Warning first, Warning... warnings) {
+    public ComparatorVerifierApi<T> suppress(Warning first, Warning... rest) {
         var suppressedWarnings = new ArrayList<Warning>();
         suppressedWarnings.add(Objects.requireNonNull(first));
-        suppressedWarnings.addAll(Arrays.asList(warnings));
-        context.toCustomContext(suppressedWarnings);
+        suppressedWarnings.addAll(Arrays.asList(rest));
+        context.asCustomContext(suppressedWarnings);
         return this;
     }
 
     public void verify() {
-        if (context.getExamples().isEmpty()) {
-            withGeneratedExamples(10);
-        }
-        performVerification(context);
+        context.verify();
     }
 
-    private void performVerification(Context<T> context) {
-        var predicates = context.getPredicates();
-        var examples = context.getExamples();
-        for (var predicate : predicates) {
-            predicate.test(examples);
-        }
-    }
 }
