@@ -1,0 +1,13 @@
+baseURL = 'https://comparatorverifier.github.io/'
+languageCode = 'en-gb'
+title = 'Comparator Verifier'
+theme = 'hugo-book'
+
+disablePathToLower = true
+
+[params]
+BookToC = false
+BookSearch = false
+
+[markup.goldmark.renderer]
+unsafe = true

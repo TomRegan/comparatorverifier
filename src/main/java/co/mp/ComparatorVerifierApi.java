@@ -66,7 +66,11 @@ public final class ComparatorVerifierApi<T> {
     }
 
     /**
-     * Enables permissive verification, allowing minor inconsistencies.
+     * Enables permissive verification, the following checks are excluded:
+     * <ul>
+     * <li>{@link Warning.CONSISTENT_WITH_EQUALS}
+     * <li>{@link Warning.SERIALIZABLE}
+     * </ul>
      *
      * @return {@code this}, for method chaining
      */
@@ -76,7 +80,10 @@ public final class ComparatorVerifierApi<T> {
     }
 
     /**
-     * Enables strict verification, enforcing full compliance.
+     * Enables strict verification, the following checks are included:
+     * <ul>
+     * <li>{@link Warning.SERIALIZABLE}
+     * </ul>
      *
      * @return {@code this}, for method chaining
      */

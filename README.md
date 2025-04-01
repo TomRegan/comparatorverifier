@@ -22,13 +22,13 @@ import co.mp.ComparatorVerifier;
 
 @Test
 void comparatorContract() {
-    ComparatorVerifier.forComparator(Foo.class).verify();
+    ComparatorVerifier.forComparator(FooComparator.class).verify();
 }
 ```
 
 ### Further Documentation
 
-Add a link to your project wiki or site.
+See [Comparator Verifier documentation](https://comparatorverifier.github.io).
 
 ## Developing
 
