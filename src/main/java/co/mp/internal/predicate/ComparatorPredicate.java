@@ -8,5 +8,5 @@ public interface ComparatorPredicate<T> {
 
     void test(List<T> examples);
 
-    Warning testsFor();
+    Warning warning();
 }

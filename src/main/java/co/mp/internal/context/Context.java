@@ -64,7 +64,7 @@ public class Context<T> {
                         isTransitive(comparator),
                         isConsistent(comparator),
                         isSerializable(comparator))
-                .filter(predicate -> !suppressedWarnings.contains(predicate.testsFor()))
+                .filter(predicate -> !suppressedWarnings.contains(predicate.warning()))
                 .toList();
     }
 

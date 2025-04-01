@@ -1,4 +1,4 @@
-package co.mp.internal;
+package co.mp.internal.reflection;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Comparator;

@@ -53,7 +53,7 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public Warning testsFor() {
+    public Warning warning() {
         return Warning.TRANSITIVITY;
     }
 }

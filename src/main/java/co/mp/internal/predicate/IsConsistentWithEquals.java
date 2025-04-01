@@ -40,7 +40,7 @@ final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public Warning testsFor() {
+    public Warning warning() {
         return Warning.CONSISTENT_WITH_EQUALS;
     }
 }

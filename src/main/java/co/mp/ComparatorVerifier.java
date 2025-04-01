@@ -1,7 +1,6 @@
 package co.mp;
 
-import co.mp.api.ComparatorVerifierApi;
-import co.mp.internal.Types;
+import co.mp.internal.reflection.Types;
 import org.instancio.Instancio;
 
 import java.util.Comparator;
