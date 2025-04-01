@@ -26,11 +26,11 @@ final class ExampleGenerator<T> {
                 : new ExampleGenerator<>(cls, new ImmutableConfiguration(DEFAULT_EXAMPLE_COUNT));
     }
 
-    public Collection<? extends T> generate() {
+    Collection<? extends T> generate() {
         return Instancio.ofList(cls).size(configuration.count()).create();
     }
 
-    public void update(Configuration configuration) {
+    void update(Configuration configuration) {
         this.configuration = configuration;
     }
 
@@ -50,7 +50,7 @@ final class ExampleGenerator<T> {
 
     record PropertyConfiguration(OptionalInt _count) implements Configuration {
 
-        public PropertyConfiguration() {
+        PropertyConfiguration() {
             this(loadExampleCount());
         }
 

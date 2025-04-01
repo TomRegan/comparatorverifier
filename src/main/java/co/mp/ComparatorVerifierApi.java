@@ -45,6 +45,7 @@ public final class ComparatorVerifierApi<T> {
      * @param first  the first example
      * @param second the second example
      * @param rest   additional examples
+     * @throws NullPointerException if {@code first} or {@code second} are {@code null}
      * @return {@code this}, for method chaining
      */
     @SafeVarargs
