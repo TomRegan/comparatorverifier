@@ -1,14 +1,14 @@
 {
   "name": "Comparator Verifier",
   "short_name": "Comparator Verifier",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/comparatorverifier/",
+  "scope": "/comparatorverifier/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/comparatorverifier/favicon.svg",
       "sizes": "512x512"
     }
   ]
