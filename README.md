@@ -15,17 +15,6 @@ Comparator Verifier is intended for use in tests to validate the contract for Co
 </dependency>
 ```
 
-### With JUnit
-
-```java
-import co.mp.ComparatorVerifier;
-
-@Test
-void comparatorContract() {
-    ComparatorVerifier.forComparator(FooComparator.class).verify();
-}
-```
-
 ### With Gradle
 
 Add `comparatorverifier` to your `build.gradle` file.
@@ -45,6 +34,17 @@ dependencies {
     testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
 }
 ``` 
+
+### With JUnit
+
+```java
+import co.mp.ComparatorVerifier;
+
+@Test
+void comparatorContract() {
+    ComparatorVerifier.forComparator(FooComparator.class).verify();
+}
+```
 
 ### Further Documentation
 
