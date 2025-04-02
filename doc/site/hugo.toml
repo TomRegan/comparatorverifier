@@ -1,4 +1,4 @@
-baseURL = 'https://comparatorverifier.github.io/'
+baseURL = 'https://tomregan.github.io/comparatorverifier/'
 languageCode = 'en-gb'
 title = 'Comparator Verifier'
 theme = 'hugo-book'
