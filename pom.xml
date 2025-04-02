@@ -3,14 +3,37 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>co.mp</groupId>
+  <groupId>io.github.tomregan</groupId>
   <artifactId>comparatorverifier</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
-  <name>comparatorverifier</name>
-  <description>ComparatorVerifier is intended for use in tests to validate the contract for Comparator is met.</description>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Comparator Verifier</name>
+  <description>Comparator Verifier is intended for use in tests to validate the contract for Comparator is met.</description>
+  <url>https://tomregan.github.io/comparatorverifier</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>git@github.com:TomRegan/comparatorverifier.git</connection>
+    <developerConnection>git@github.com:TomRegan/comparatorverifier.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/TomRegan/comparatorverifier/issues</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>github</system>
+    <url>https://github.com/TomRegan/tomregan.github.io/actions</url>
+  </ciManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

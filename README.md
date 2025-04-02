@@ -1,6 +1,6 @@
-# comparatorverifier
+# Comparator Verifier
 
-ComparatorVerifier is intended for use in tests to validate the contract for Comparator is met.
+Comparator Verifier is intended for use in tests to validate the contract for Comparator is met.
 
 ## Getting Started
 
@@ -25,6 +25,26 @@ void comparatorContract() {
     ComparatorVerifier.forComparator(FooComparator.class).verify();
 }
 ```
+
+### With Gradle
+
+Add `comparatorverifier` to your `build.gradle` file.
+
+#### Using Groovy DSL
+
+```gradle
+dependencies {
+    testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
+}
+```
+
+#### Using Kotlin DSL
+
+```kotlin
+dependencies {
+    testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
+}
+``` 
 
 ### Further Documentation
 
