@@ -4,10 +4,19 @@ import co.mp.Warning;
 import co.mp.internal.context.ExampleGenerator.Configuration;
 import co.mp.internal.predicate.ComparatorPredicate;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
-import static co.mp.internal.predicate.Predicates.*;
+import static co.mp.internal.predicate.Predicates.isAntiSymmetric;
+import static co.mp.internal.predicate.Predicates.isConsistent;
+import static co.mp.internal.predicate.Predicates.isConsistentWithEquals;
+import static co.mp.internal.predicate.Predicates.isReflexive;
+import static co.mp.internal.predicate.Predicates.isSerializable;
+import static co.mp.internal.predicate.Predicates.isTransitive;
 
 public class Context<T> {
 
