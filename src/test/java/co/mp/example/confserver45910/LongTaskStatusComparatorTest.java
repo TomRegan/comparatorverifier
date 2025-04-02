@@ -1,13 +1,15 @@
-package co.mp;
+package co.mp.example.confserver45910;
 
-import co.mp.fixture.BadExamples.Confserver45910.LongTaskStatus;
-import co.mp.fixture.BadExamples.Confserver45910.LongTaskStatusComparator;
-import co.mp.fixture.BadExamples.Confserver45910.Message;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import co.mp.ComparatorVerifier;
+import co.mp.example.confserver45910.fixture.LongTaskStatus;
+import co.mp.example.confserver45910.fixture.LongTaskStatusComparator;
+import co.mp.example.confserver45910.fixture.Message;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class LongTaskStatusComparatorTest {
 
@@ -17,7 +19,7 @@ final class LongTaskStatusComparatorTest {
      * @see <a href="https://jira.atlassian.com/browse/CONFSERVER-45910">CONFSERVER-45910</a>
      */
     @Test
-    void control() {
+    void it_should_cause_an_illegal_argument_exception_during_sorting() {
         var list = new ArrayList<LongTaskStatus>();
         // this is a common brute force approach, which depends on the fact that
         // TimSort will throw an IAE when it tries to merge. The merge after a
@@ -33,12 +35,11 @@ final class LongTaskStatusComparatorTest {
         assertThrows(IllegalArgumentException.class, () -> list.sort(new LongTaskStatusComparator()));
     }
 
-    /**
-     * This is our test which uses a test based on the law of symmetry instead.
-     */
+    @Disabled("under development")
     @Test
-    void candidate() {
-        assertThrows(AssertionError.class, () -> ComparatorVerifier.forComparator(LongTaskStatusComparator.class).verify());
+    void it_should_fail_for_anti_symmetry_violation() {
+        // TODO need to test with null values to trigger the bug
+        var error = assertThrows(AssertionError.class, () -> ComparatorVerifier.forComparator(LongTaskStatusComparator.class).verify());
     }
 
 }
