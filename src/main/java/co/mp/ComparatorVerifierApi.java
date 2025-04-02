@@ -49,7 +49,7 @@ public final class ComparatorVerifierApi<T> {
      * @return {@code this}, for method chaining
      */
     @SafeVarargs
-    final ComparatorVerifierApi<T> withExamples(T first, T second, T... rest) {
+    public final ComparatorVerifierApi<T> withExamples(T first, T second, T... rest) {
         context.examples(first, second, rest);
         return this;
     }
@@ -60,7 +60,7 @@ public final class ComparatorVerifierApi<T> {
      * @param count the number of examples to generate
      * @return {@code this}, for method chaining
      */
-    ComparatorVerifierApi<T> withGeneratedExamples(int count) {
+    public ComparatorVerifierApi<T> withGeneratedExamples(int count) {
         context.examples(count);
         return this;
     }
@@ -74,7 +74,7 @@ public final class ComparatorVerifierApi<T> {
      *
      * @return {@code this}, for method chaining
      */
-    ComparatorVerifierApi<T> permissive() {
+    public ComparatorVerifierApi<T> permissive() {
         context.asPermissiveContext();
         return this;
     }
@@ -87,7 +87,7 @@ public final class ComparatorVerifierApi<T> {
      *
      * @return {@code this}, for method chaining
      */
-    ComparatorVerifierApi<T> strict() {
+    public ComparatorVerifierApi<T> strict() {
         context.asStrictContext();
         return this;
     }
@@ -101,7 +101,7 @@ public final class ComparatorVerifierApi<T> {
      * @throws NullPointerException if {@code first} is {@code null}
      * @see Warning
      */
-    ComparatorVerifierApi<T> suppress(Warning first, Warning... rest) {
+    public ComparatorVerifierApi<T> suppress(Warning first, Warning... rest) {
         var suppressedWarnings = new ArrayList<Warning>();
         suppressedWarnings.add(Objects.requireNonNull(first));
         suppressedWarnings.addAll(Arrays.asList(rest));
@@ -113,7 +113,7 @@ public final class ComparatorVerifierApi<T> {
      * Runs the verification process for the configured comparator.
      * Throws an exception if verification fails.
      */
-    void verify() {
+    public void verify() {
         context.verify();
     }
 }
