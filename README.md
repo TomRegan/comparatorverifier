@@ -48,7 +48,7 @@ void comparatorContract() {
 
 ### Further Documentation
 
-See [Comparator Verifier documentation](https://comparatorverifier.github.io).
+See [Comparator Verifier documentation](https://tomregan.github.io/comparatorverifier/).
 
 ## Developing
 
