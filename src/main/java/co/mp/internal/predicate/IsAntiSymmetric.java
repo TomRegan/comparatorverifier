@@ -17,8 +17,6 @@ import java.util.Objects;
  * This ensures that if {@code x} is considered greater than {@code y} (i.e. {@code compare(x, y)}
  * returns a positive value), then {@code y} must be considered less than {@code x} (i.e.
  * {@code compare(y, x)} returns a negative value), and vice versa. <p>
- * Additionally, if either {@code compare(x, y)} or {@code compare(y, x)} throws an exception, the other must
- * throw an exception as well. </p>
  *
  * @see java.util.Comparator
  */
