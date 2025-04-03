@@ -38,8 +38,7 @@ final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
                     return failure(
                             comparator.getClass(),
                             warning(),
-                            "Equality violated: compare is inconsistent " +
-                                    "with equals for instances " + a + " and " + b);
+                            a + " and " + b);
                 }
             }
         }

@@ -34,7 +34,7 @@ final class IsReflexive<T> implements ComparatorPredicate<T> {
                 return failure(
                         comparator.getClass(),
                         warning(),
-                        "Reflexivity violated: " + a + ": compare(a, a) = " + cmp);
+                        a + ": compare(a, a) = " + cmp);
             }
         }
         return success(comparator.getClass(), warning());

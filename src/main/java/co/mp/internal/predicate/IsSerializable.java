@@ -38,7 +38,7 @@ final class IsSerializable<T> implements ComparatorPredicate<T> {
         return failure(
                 comparator.getClass(),
                 warning(),
-                "Comparator does not implement Serializable");
+                "");
     }
 
     @Override

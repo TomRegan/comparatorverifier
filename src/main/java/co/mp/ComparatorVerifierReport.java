@@ -2,11 +2,13 @@ package co.mp;
 
 import co.mp.internal.predicate.Result;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -16,6 +18,7 @@ import java.util.stream.Collector;
 
 public final class ComparatorVerifierReport {
     private final List<Result> results = new ArrayList<>();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("messages");
 
     public void add(Result result) {
         if (result.successful()) {
@@ -46,12 +49,20 @@ public final class ComparatorVerifierReport {
 
     @Override
     public String toString() {
-        return """
-                ComparatorVerifier found a problem in class %s
-                -> %s
-                """.formatted(
-                type().getName(),
-                String.join("\n-> ", results().stream().map(Result::message).toList()));
+        var reportFormat = new MessageFormat(bundle.getString("report"));
+        return reportFormat.format(
+                new Object[]{
+                        type().getName(),
+                        String.join("\n-> ", results().stream().map(this::resultToString).toList())
+                });
+    }
+
+    private String resultToString(Result result) {
+        var key = "warning." + result.warning().name().toLowerCase().replace('_', '.');
+        var resultFormat = new MessageFormat(bundle.getString(key));
+        return resultFormat.format(new Object[]{
+                result.message()
+        });
     }
 
     public boolean hasFailureReason(Warning warning) {

@@ -36,8 +36,7 @@ final class IsConsistent<T> implements ComparatorPredicate<T> {
                             return failure(
                                     comparator.getClass(),
                                     warning(),
-                                    "Consistency violated: " + a + " and " + b +
-                                            " compare equal but differ when compared with " + c);
+                                    a + " and " + b + " compare equal but differ when compared with " + c);
                         }
                     }
                 }

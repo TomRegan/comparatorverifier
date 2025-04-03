@@ -52,8 +52,7 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
                         return failure(
                                 comparator.getClass(),
                                 warning(),
-                                "Transitivity violated: " + a + " < " + b + " and " + b + " < " + c +
-                                        " but " + a + " !< " + c);
+                                a + " < " + b + " and " + b + " < " + c + " but " + a + " !< " + c);
                     }
                 }
             }
