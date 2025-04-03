@@ -18,14 +18,17 @@ public class ComparatorVerifierReport {
     private final List<Result> results = new ArrayList<>();
 
     public void add(Result result) {
+        if (result == null) {
+            return;
+        }
         results.add(result);
     }
 
     public void addAll(Collection<Result> results) {
-        this.results.addAll(results);
+        results.forEach(this::add);
     }
 
-    public List<Result> getResults() {
+    public List<Result> results() {
         return Collections.unmodifiableList(results);
     }
 
@@ -63,7 +66,7 @@ public class ComparatorVerifierReport {
         @Override
         public BinaryOperator<ComparatorVerifierReport> combiner() {
             return (r1, r2) -> {
-                r1.addAll(r2.getResults());
+                r1.addAll(r2.results());
                 return r1;
             };
         }

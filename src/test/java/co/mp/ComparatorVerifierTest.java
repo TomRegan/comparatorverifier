@@ -91,6 +91,13 @@ final class ComparatorVerifierTest {
     }
 
     @Test
+    void it_should_allow_consistency_with_equals_to_be_violated_when_set_to_permissive() {
+        ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
+                .permissive()
+                .verify();
+    }
+
+    @Test
     void it_should_accept_an_instance_of_a_comparator() {
         var integerComparator = new Comparator<Integer>() {
 
