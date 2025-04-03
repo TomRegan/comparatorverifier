@@ -31,10 +31,13 @@ final class IsReflexive<T> implements ComparatorPredicate<T> {
             @SuppressWarnings("EqualsWithItself")
             int cmp = comparator.compare(a, a);
             if (cmp != 0) {
-                return failure(warning(), "Reflexivity violated for instance " + a + ": compare(a, a) = " + cmp);
+                return failure(
+                        comparator.getClass(),
+                        warning(),
+                        "Reflexivity violated: " + a + ": compare(a, a) = " + cmp);
             }
         }
-        return success(warning());
+        return success(comparator.getClass(), warning());
     }
 
     @Override

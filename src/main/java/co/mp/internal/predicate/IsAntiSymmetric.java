@@ -40,13 +40,14 @@ final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
                 int cmpReverse = comparator.compare(b, a);
                 if (Integer.signum(cmp) != -Integer.signum(cmpReverse)) {
                     return failure(
+                            comparator.getClass(),
                             warning(),
-                            "Anti-symmetry violated for instances " + a + " and " + b +
+                            "Anti-symmetry violated: " + a + " and " + b +
                                     ": compare(a, b) = " + cmp + ", compare(b, a) = " + cmpReverse);
                 }
             }
         }
-        return success(warning());
+        return success(comparator.getClass(), warning());
     }
 
     @Override

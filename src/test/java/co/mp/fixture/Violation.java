@@ -25,6 +25,10 @@ public interface Violation {
         @SuppressWarnings("ComparatorMethodParameterNotUsed")
         @Override
         public int compare(SimpleValue a, SimpleValue b) {
+            // self-comparison returns 0 to satisfy reflexivity
+            if (a == b) {
+                return 0;
+            }
             return 1;
         }
     }

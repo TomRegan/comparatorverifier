@@ -1,21 +1,14 @@
 package co.mp;
 
 import co.mp.exception.ComparatorVerificationException;
-import static co.mp.fixture.Value.ConsistentValue;
-import static co.mp.fixture.Value.SimpleValue;
-import static co.mp.fixture.Violation.ViolatesAntiSymmetry;
-import static co.mp.fixture.Violation.ViolatesConsistency;
-import static co.mp.fixture.Violation.ViolatesConsistentWithEquals;
-import static co.mp.fixture.Violation.ViolatesReflexivity;
-import static co.mp.fixture.Violation.ViolatesSerializable;
-import static co.mp.fixture.Violation.ViolatesTransitivity;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 
-import org.junit.jupiter.api.Test;
+import static co.mp.fixture.Value.ConsistentValue;
+import static co.mp.fixture.Value.SimpleValue;
+import static co.mp.fixture.Violation.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 final class ComparatorVerifierTest {
 
@@ -92,9 +85,11 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_allow_consistency_with_equals_to_be_violated_when_set_to_permissive() {
-        ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
-                .permissive()
-                .verify();
+        var error = assertThrows(ComparatorVerificationException.class,
+                () -> ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
+                        .permissive()
+                        .verify());
+        assertFalse(error.report().hasFailureReason(Warning.CONSISTENT_WITH_EQUALS));
     }
 
     @Test

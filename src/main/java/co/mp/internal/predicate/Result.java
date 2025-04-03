@@ -4,6 +4,8 @@ import co.mp.Warning;
 
 public interface Result {
 
+    Class<?> type();
+
     Warning warning();
 
     String message();
@@ -14,15 +16,19 @@ public interface Result {
         return !successful();
     }
 
-    static Result success(Warning warning) {
-        return new Success(warning, null);
+    static Result success(Class<?> type, Warning warning) {
+        return new Success(type, warning);
     }
 
-    static Result failure(Warning warning, String message) {
-        return new Failure(warning, message);
+    static Result failure(Class<?> type, Warning warning, String message) {
+        return new Failure(type, warning, message);
     }
 
-    record Success(Warning warning, String message) implements Result {
+    record Success(Class<?> type, Warning warning, String message) implements Result {
+
+        Success(Class<?> type, Warning warning) {
+            this(type, warning, null);
+        }
 
         @Override
         public boolean successful() {
@@ -30,7 +36,7 @@ public interface Result {
         }
     }
 
-    record Failure(Warning warning, String message) implements Result {
+    record Failure(Class<?> type, Warning warning, String message) implements Result {
 
         @Override
         public boolean successful() {

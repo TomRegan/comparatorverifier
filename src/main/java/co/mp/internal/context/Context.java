@@ -4,6 +4,7 @@ import co.mp.Warning;
 import co.mp.exception.ComparatorVerificationException;
 import co.mp.internal.context.ExampleGenerator.Configuration;
 import co.mp.internal.predicate.ComparatorPredicate;
+
 import static co.mp.ComparatorVerifierReport.toReport;
 import static co.mp.internal.predicate.Predicates.isAntiSymmetric;
 import static co.mp.internal.predicate.Predicates.isConsistent;
@@ -35,7 +36,9 @@ public final class Context<T> {
 
     public static <T> Context<T> create(Comparator<T> comparator, Class<T> cls) {
         Context<T> context = new Context<>(comparator, cls, List.of(), List.of());
-        var mode = ComparatorVerifierProperties.getInstance().mode().orElse(VerificationMode.DEFAULT);
+        var mode = ComparatorVerifierProperties.getInstance()
+                .mode()
+                .orElse(VerificationMode.DEFAULT);
         switch (mode) {
             case PERMISSIVE -> context.asPermissiveContext();
             case STRICT -> context.asStrictContext();
@@ -55,12 +58,12 @@ public final class Context<T> {
 
     public void asStrictContext() {
         this.predicates = List.of(
-                        isConsistentWithEquals(comparator),
-                        isReflexive(comparator),
-                        isAntiSymmetric(comparator),
-                        isTransitive(comparator),
-                        isConsistent(comparator),
-                        isSerializable(comparator));
+                isConsistentWithEquals(comparator),
+                isReflexive(comparator),
+                isAntiSymmetric(comparator),
+                isTransitive(comparator),
+                isConsistent(comparator),
+                isSerializable(comparator));
     }
 
     public void asPermissiveContext() {

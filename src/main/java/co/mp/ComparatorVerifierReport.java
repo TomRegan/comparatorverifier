@@ -14,11 +14,11 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-public class ComparatorVerifierReport {
+public final class ComparatorVerifierReport {
     private final List<Result> results = new ArrayList<>();
 
     public void add(Result result) {
-        if (result == null) {
+        if (result.successful()) {
             return;
         }
         results.add(result);
@@ -26,6 +26,10 @@ public class ComparatorVerifierReport {
 
     public void addAll(Collection<Result> results) {
         results.forEach(this::add);
+    }
+
+    public Class<?> type() {
+        return results.get(0).type();
     }
 
     public List<Result> results() {
@@ -42,16 +46,19 @@ public class ComparatorVerifierReport {
 
     @Override
     public String toString() {
-        return "Report{" +
-                "results=" + results +
-                '}';
+        return """
+                ComparatorVerifier found a problem in class %s
+                -> %s
+                """.formatted(
+                type().getName(),
+                String.join("\n-> ", results().stream().map(Result::message).toList()));
     }
 
     public boolean hasFailureReason(Warning warning) {
         return results.stream().map(Result::warning).anyMatch(w -> w == warning);
     }
 
-    public static class ReportCollector implements Collector<Result, ComparatorVerifierReport, ComparatorVerifierReport> {
+    public static final class ReportCollector implements Collector<Result, ComparatorVerifierReport, ComparatorVerifierReport> {
 
         @Override
         public Supplier<ComparatorVerifierReport> supplier() {

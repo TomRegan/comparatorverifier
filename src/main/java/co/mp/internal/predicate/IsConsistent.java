@@ -33,7 +33,9 @@ final class IsConsistent<T> implements ComparatorPredicate<T> {
                 if (comparator.compare(a, b) == 0) {
                     for (T c : examples) {
                         if (Integer.signum(comparator.compare(a, c)) != Integer.signum(comparator.compare(b, c))) {
-                            return failure(warning(),
+                            return failure(
+                                    comparator.getClass(),
+                                    warning(),
                                     "Consistency violated: " + a + " and " + b +
                                             " compare equal but differ when compared with " + c);
                         }
@@ -41,7 +43,7 @@ final class IsConsistent<T> implements ComparatorPredicate<T> {
                 }
             }
         }
-        return success(warning());
+        return success(comparator.getClass(), warning());
     }
 
     @Override

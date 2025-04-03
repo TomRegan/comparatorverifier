@@ -35,13 +35,15 @@ final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
                 int cmp = comparator.compare(a, b);
                 boolean isEqual = a.equals(b);
                 if (cmp == 0 && !isEqual || cmp != 0 && isEqual) {
-                    return failure(warning(),
+                    return failure(
+                            comparator.getClass(),
+                            warning(),
                             "Equality violated: compare is inconsistent " +
                                     "with equals for instances " + a + " and " + b);
                 }
             }
         }
-        return success(warning());
+        return success(comparator.getClass(), warning());
     }
 
     @Override

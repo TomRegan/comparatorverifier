@@ -1,6 +1,6 @@
 package co.mp.internal.context;
 
-import co.mp.exception.PropertiesException;
+import co.mp.exception.ComparatorVerifierPropertiesException;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -49,7 +49,7 @@ final class ComparatorVerifierProperties {
                     .map(String::toUpperCase)
                     .map(VerificationMode::valueOf);
         } catch (IllegalArgumentException e) {
-            throw new PropertiesException("comparatorverifier.mode", mode, e);
+            throw new ComparatorVerifierPropertiesException("comparatorverifier.mode", mode, e);
         }
     }
 

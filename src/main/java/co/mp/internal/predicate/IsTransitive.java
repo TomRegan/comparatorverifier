@@ -42,19 +42,23 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
                     int cmpBC = comparator.compare(b, c);
                     int cmpAC = comparator.compare(a, c);
                     if (cmpAB > 0 && cmpBC > 0 && cmpAC <= 0) {
-                        return failure(warning(),
+                        return failure(
+                                comparator.getClass(),
+                                warning(),
                                 "Transitivity violated: " + a + " > " + b + " and " + b + " > " + c +
                                         " but " + a + " !> " + c);
                     }
                     if (cmpAB < 0 && cmpBC < 0 && cmpAC >= 0) {
-                        return failure(warning(),
+                        return failure(
+                                comparator.getClass(),
+                                warning(),
                                 "Transitivity violated: " + a + " < " + b + " and " + b + " < " + c +
                                         " but " + a + " !< " + c);
                     }
                 }
             }
         }
-        return success(warning());
+        return success(comparator.getClass(), warning());
     }
 
     @Override

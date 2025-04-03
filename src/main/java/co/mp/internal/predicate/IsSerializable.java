@@ -33,11 +33,12 @@ final class IsSerializable<T> implements ComparatorPredicate<T> {
     @Override
     public Result test(List<T> ignored) {
         if (Serializable.class.isAssignableFrom(comparator.getClass())) {
-            return success(warning());
+            return success(comparator.getClass(), warning());
         }
-        return failure(warning(),
-                "Comparator of type " + comparator.getClass().getSimpleName()
-                        + " does not implement Serializable");
+        return failure(
+                comparator.getClass(),
+                warning(),
+                "Comparator does not implement Serializable");
     }
 
     @Override
