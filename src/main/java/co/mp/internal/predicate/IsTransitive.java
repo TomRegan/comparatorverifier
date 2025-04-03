@@ -1,6 +1,8 @@
 package co.mp.internal.predicate;
 
 import co.mp.Warning;
+import static co.mp.internal.predicate.Result.failure;
+import static co.mp.internal.predicate.Result.success;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,12 +26,12 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public void test(List<T> examples) {
+    public Result test(List<T> examples) {
         // if we have too few examples, we cannot test, so notify the user
         if (examples.size() < 3) {
             var enumName = Warning.class.getSimpleName();
             var memberName = Warning.TRANSITIVITY.name();
-            throw new AssertionError("Too few examples (" + examples.size() + ") to test transitivity! " +
+            throw new IllegalArgumentException("Too few examples (" + examples.size() + ") to test transitivity! " +
                     "Disable this test using suppress(" + enumName + "." + memberName + ") or add more examples");
         }
         //  if a > b and b > c then a > c, and if a < b and b < c then a < c.
@@ -40,16 +42,19 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
                     int cmpBC = comparator.compare(b, c);
                     int cmpAC = comparator.compare(a, c);
                     if (cmpAB > 0 && cmpBC > 0 && cmpAC <= 0) {
-                        throw new AssertionError("Transitivity violated: " + a + " > " + b + " and " + b + " > " + c +
-                                " but " + a + " !> " + c);
+                        return failure(warning(),
+                                "Transitivity violated: " + a + " > " + b + " and " + b + " > " + c +
+                                        " but " + a + " !> " + c);
                     }
                     if (cmpAB < 0 && cmpBC < 0 && cmpAC >= 0) {
-                        throw new AssertionError("Transitivity violated: " + a + " < " + b + " and " + b + " < " + c +
-                                " but " + a + " !< " + c);
+                        return failure(warning(),
+                                "Transitivity violated: " + a + " < " + b + " and " + b + " < " + c +
+                                        " but " + a + " !< " + c);
                     }
                 }
             }
         }
+        return success(warning());
     }
 
     @Override

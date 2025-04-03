@@ -2,6 +2,9 @@ package co.mp.internal.predicate;
 
 import co.mp.Warning;
 
+import static co.mp.internal.predicate.Result.failure;
+import static co.mp.internal.predicate.Result.success;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -26,17 +29,19 @@ final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public void test(List<T> examples) {
+    public Result test(List<T> examples) {
         for (T a : examples) {
             for (T b : examples.subList(1, examples.size())) {
                 int cmp = comparator.compare(a, b);
                 boolean isEqual = a.equals(b);
                 if (cmp == 0 && !isEqual || cmp != 0 && isEqual) {
-                    throw new AssertionError("Equality violated: compare is inconsistent " +
-                            "with equals for instances " + a + " and " + b);
+                    return failure(warning(),
+                            "Equality violated: compare is inconsistent " +
+                                    "with equals for instances " + a + " and " + b);
                 }
             }
         }
+        return success(warning());
     }
 
     @Override

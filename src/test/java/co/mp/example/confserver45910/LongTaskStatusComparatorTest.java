@@ -1,16 +1,25 @@
 package co.mp.example.confserver45910;
 
 import co.mp.ComparatorVerifier;
+import co.mp.Warning;
 import co.mp.example.confserver45910.fixture.LongTaskStatus;
 import co.mp.example.confserver45910.fixture.LongTaskStatusComparator;
 import co.mp.example.confserver45910.fixture.Message;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import co.mp.exception.ComparatorVerificationException;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
+/**
+ * A comparator can fail in {@code TimSort} in case the results are
+ * not transitive. The properties which cover this are transitivity
+ * and anti symmetry (which is a two-element case of transitivity).
+ *
+ * @see java.util.TimSort
+ */
 final class LongTaskStatusComparatorTest {
 
     /**
@@ -19,7 +28,7 @@ final class LongTaskStatusComparatorTest {
      * @see <a href="https://jira.atlassian.com/browse/CONFSERVER-45910">CONFSERVER-45910</a>
      */
     @Test
-    void it_should_cause_an_illegal_argument_exception_during_sorting() {
+    void tim_sort_should_fail_due_to_an_anti_symmetry_violation() {
         var list = new ArrayList<LongTaskStatus>();
         // this is a common brute force approach, which depends on the fact that
         // TimSort will throw an IAE when it tries to merge. The merge after a
@@ -35,11 +44,16 @@ final class LongTaskStatusComparatorTest {
         assertThrows(IllegalArgumentException.class, () -> list.sort(new LongTaskStatusComparator()));
     }
 
-    @Disabled("under development")
     @Test
-    void it_should_fail_for_anti_symmetry_violation() {
-        // TODO need to test with null values to trigger the bug
-        var error = assertThrows(AssertionError.class, () -> ComparatorVerifier.forComparator(LongTaskStatusComparator.class).verify());
+    void it_should_detect_an_anti_symmetry_violation() {
+        var a = new LongTaskStatus(null);
+        var b = new LongTaskStatus(null);
+        var error = assertThrows(ComparatorVerificationException.class,
+                () -> ComparatorVerifier.forComparator(LongTaskStatusComparator.class)
+                        .only(Warning.ANTI_SYMMETRY)
+                        .withExamples(a, b)
+                        .verify());
+        assertTrue(error.report().hasFailureReason(Warning.ANTI_SYMMETRY));
     }
 
 }

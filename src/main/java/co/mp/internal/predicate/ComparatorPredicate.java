@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ComparatorPredicate<T> {
 
-    void test(List<T> examples);
+    Result test(List<T> examples);
 
     Warning warning();
 }

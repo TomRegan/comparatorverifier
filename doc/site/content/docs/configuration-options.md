@@ -37,7 +37,23 @@ Enables permissive verification, excluding the following checks:
 
 ### `suppress(Warning first, Warning... rest)`
 
+{{% hint danger %}}
+A comparator that does not meet the comparator contract will not be safe to use with Java collections.
+
+Consider using `permissive()` or `strict()` instead to alter verification behaviour.
+{{% /hint %}}
+
 Suppresses specific warnings during verification.
+
+### `only(Warning first, Warning... rest)`
+
+{{% hint danger %}}
+A comparator that does not meet the comparator contract will not be safe to use with Java collections.
+
+Consider using `permissive()` or `strict()` instead to alter verification behaviour.
+{{% /hint %}}
+
+Includes only specific warnings during verification.
 
 ### `verify()`
 

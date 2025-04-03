@@ -105,8 +105,7 @@ final class FooComparatorTest {
 ### Verification with Suppressed Warnings
 
 {{% hint danger %}}
-It is unusual to want a comparator that does not meet the comparator contract.
-This comparator will not be safe to use with Java collections.
+A comparator that does not meet the comparator contract will not be safe to use with Java collections.
 
 Consider using `permissive()` or `strict()` instead to alter verification behaviour.
 {{% /hint %}}

@@ -1,6 +1,7 @@
 package co.mp;
 
 import co.mp.internal.context.Context;
+import static java.util.function.Predicate.not;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +46,8 @@ public final class ComparatorVerifierApi<T> {
      * @param first  the first example
      * @param second the second example
      * @param rest   additional examples
-     * @throws NullPointerException if {@code first} or {@code second} are {@code null}
      * @return {@code this}, for method chaining
+     * @throws NullPointerException if {@code first} or {@code second} are {@code null}
      */
     @SafeVarargs
     public final ComparatorVerifierApi<T> withExamples(T first, T second, T... rest) {
@@ -106,6 +107,25 @@ public final class ComparatorVerifierApi<T> {
         suppressedWarnings.add(Objects.requireNonNull(first));
         suppressedWarnings.addAll(Arrays.asList(rest));
         context.asCustomContext(suppressedWarnings);
+        return this;
+    }
+
+    /**
+     * Includes only specific warnings during verification.
+     *
+     * @param first the first warning to include
+     * @param rest  additional warnings to include
+     * @return {@code this}, for method chaining
+     * @throws NullPointerException if {@code first} is {@code null}
+     * @see Warning
+     */
+    public ComparatorVerifierApi<T> only(Warning first, Warning... rest) {
+        var includedWarnings = new ArrayList<Warning>();
+        includedWarnings.add(Objects.requireNonNull(first));
+        includedWarnings.addAll(Arrays.asList(rest));
+        context.asCustomContext(Arrays.stream(Warning.values())
+                .filter(not(includedWarnings::contains))
+                .toList());
         return this;
     }
 

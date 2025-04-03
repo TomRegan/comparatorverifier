@@ -1,8 +1,16 @@
 package co.mp.internal.context;
 
 import co.mp.Warning;
+import co.mp.exception.ComparatorVerificationException;
 import co.mp.internal.context.ExampleGenerator.Configuration;
 import co.mp.internal.predicate.ComparatorPredicate;
+import static co.mp.ComparatorVerifierReport.toReport;
+import static co.mp.internal.predicate.Predicates.isAntiSymmetric;
+import static co.mp.internal.predicate.Predicates.isConsistent;
+import static co.mp.internal.predicate.Predicates.isConsistentWithEquals;
+import static co.mp.internal.predicate.Predicates.isReflexive;
+import static co.mp.internal.predicate.Predicates.isSerializable;
+import static co.mp.internal.predicate.Predicates.isTransitive;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,13 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-
-import static co.mp.internal.predicate.Predicates.isAntiSymmetric;
-import static co.mp.internal.predicate.Predicates.isConsistent;
-import static co.mp.internal.predicate.Predicates.isConsistentWithEquals;
-import static co.mp.internal.predicate.Predicates.isReflexive;
-import static co.mp.internal.predicate.Predicates.isSerializable;
-import static co.mp.internal.predicate.Predicates.isTransitive;
 
 public final class Context<T> {
 
@@ -103,8 +104,11 @@ public final class Context<T> {
         if (examples.isEmpty()) {
             examples.addAll(exampleGenerator.generate());
         }
-        for (var predicate : predicates) {
-            predicate.test(examples);
+        var report = predicates.stream()
+                .map(predicate -> predicate.test(examples))
+                .collect(toReport());
+        if (report.hasFailures()) {
+            throw new ComparatorVerificationException(report);
         }
     }
 }

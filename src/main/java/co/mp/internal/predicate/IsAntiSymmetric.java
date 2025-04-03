@@ -2,6 +2,9 @@ package co.mp.internal.predicate;
 
 import co.mp.Warning;
 
+import static co.mp.internal.predicate.Result.failure;
+import static co.mp.internal.predicate.Result.success;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -29,18 +32,21 @@ final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public void test(List<T> examples) {
+    public Result test(List<T> examples) {
         // for every pair (a, b), sign(comparator.compare(a, b)) == -sign(comparator.compare(b, a))
         for (T a : examples) {
             for (T b : examples.subList(1, examples.size())) {
                 int cmp = this.comparator.compare(a, b);
                 int cmpReverse = comparator.compare(b, a);
                 if (Integer.signum(cmp) != -Integer.signum(cmpReverse)) {
-                    throw new AssertionError("Anti-symmetry violated for instances " + a + " and " + b +
-                            ": compare(a, b) = " + cmp + ", compare(b, a) = " + cmpReverse);
+                    return failure(
+                            warning(),
+                            "Anti-symmetry violated for instances " + a + " and " + b +
+                                    ": compare(a, b) = " + cmp + ", compare(b, a) = " + cmpReverse);
                 }
             }
         }
+        return success(warning());
     }
 
     @Override

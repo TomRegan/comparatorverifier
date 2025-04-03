@@ -2,6 +2,9 @@ package co.mp.internal.predicate;
 
 import co.mp.Warning;
 
+import static co.mp.internal.predicate.Result.failure;
+import static co.mp.internal.predicate.Result.success;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -28,12 +31,13 @@ final class IsSerializable<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public void test(List<T> ignored) {
+    public Result test(List<T> ignored) {
         if (Serializable.class.isAssignableFrom(comparator.getClass())) {
-            return;
+            return success(warning());
         }
-        throw new AssertionError("Comparator of type " + comparator.getClass().getSimpleName()
-                + " does not implement Serializable");
+        return failure(warning(),
+                "Comparator of type " + comparator.getClass().getSimpleName()
+                        + " does not implement Serializable");
     }
 
     @Override

@@ -2,6 +2,9 @@ package co.mp.internal.predicate;
 
 import co.mp.Warning;
 
+import static co.mp.internal.predicate.Result.failure;
+import static co.mp.internal.predicate.Result.success;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -22,15 +25,16 @@ final class IsReflexive<T> implements ComparatorPredicate<T> {
     }
 
     @Override
-    public void test(List<T> examples) {
+    public Result test(List<T> examples) {
         // for every a, comparator.compare(a, a) should be 0.
         for (T a : examples) {
             @SuppressWarnings("EqualsWithItself")
             int cmp = comparator.compare(a, a);
             if (cmp != 0) {
-                throw new AssertionError("Reflexivity violated for instance " + a + ": compare(a, a) = " + cmp);
+                return failure(warning(), "Reflexivity violated for instance " + a + ": compare(a, a) = " + cmp);
             }
         }
+        return success(warning());
     }
 
     @Override
