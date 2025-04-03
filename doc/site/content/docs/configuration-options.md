@@ -43,3 +43,14 @@ Suppresses specific warnings during verification.
 
 Runs the verification process and throws an exception if validation
 fails.
+
+# Using a Properties File
+
+Create a file in `src/test/resources` called `comparator-verifier.properties`.
+
+```properties
+# number of examples to generate by default, int
+comparatorverifier.examples.count=10
+# mode in which to run, default | permissive | strict
+comparatorverifier.mode=default
+```
