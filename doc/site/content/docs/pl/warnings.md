@@ -11,8 +11,8 @@ weryfikacji poprawności implementacji `Comparatora`. Każde ostrzeżenie
 odpowiada konkretnej właściwości umownej, którą dobrze zaimplementowany
 comparator powinien spełniać.
 
-* 🇬🇧 [In English](../warnings.md)
-* 🇫🇷 [En français](../fr/warnings.md)
+* 🇬🇧 [In English](/docs/warnings.md)
+* 🇫🇷 [En français]/docs/fr/warnings.md)
 
 ## `ANTI_SYMMETRY`
 

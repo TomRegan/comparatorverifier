@@ -11,8 +11,8 @@ vérification de la validité d'une implémentation de `Comparator`. Chaque
 avertissement correspond à une propriété contractuelle spécifique qu'un
 comparateur bien implémenté devrait respecter.
 
-* 🇬🇧 [In English](../warnings.md)
-* 🇵🇱 [Po polsku](../pl/warnings.md)
+* 🇬🇧 [In English](/docs/warnings.md)
+* 🇵🇱 [Po polsku](/docs/pl/warnings.md)
 
 ## `ANTI_SYMMETRY`
 
