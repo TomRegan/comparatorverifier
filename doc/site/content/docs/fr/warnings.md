@@ -1,3 +1,9 @@
+---
+weight: 1
+bookFlatSection: true
+title: "Explication des avertissements"
+---
+
 # Explication des avertissements
 
 Cette page présente divers avertissements pouvant survenir lors de la

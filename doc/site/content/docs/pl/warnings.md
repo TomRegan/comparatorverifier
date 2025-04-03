@@ -1,3 +1,9 @@
+---
+weight: 1
+bookFlatSection: true
+title: "Wyjaśnienie ostrzeżeń"
+---
+
 # Wyjaśnienie ostrzeżeń
 
 Ta strona przedstawia różne ostrzeżenia, które mogą pojawić się podczas
