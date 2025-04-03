@@ -18,7 +18,7 @@ import static co.mp.internal.predicate.Predicates.isReflexive;
 import static co.mp.internal.predicate.Predicates.isSerializable;
 import static co.mp.internal.predicate.Predicates.isTransitive;
 
-public class Context<T> {
+public final class Context<T> {
 
     private final List<T> examples = new LinkedList<>();
     private final Comparator<T> comparator;
@@ -34,7 +34,12 @@ public class Context<T> {
 
     public static <T> Context<T> create(Comparator<T> comparator, Class<T> cls) {
         Context<T> context = new Context<>(comparator, cls, List.of(), List.of());
-        context.asDefaultContext();
+        var mode = ComparatorVerifierProperties.getInstance().mode().orElse(VerificationMode.DEFAULT);
+        switch (mode) {
+            case PERMISSIVE -> context.asPermissiveContext();
+            case STRICT -> context.asStrictContext();
+            default -> context.asDefaultContext();
+        }
         return context;
     }
 

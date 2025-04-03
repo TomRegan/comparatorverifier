@@ -1,13 +1,11 @@
 package co.mp.internal.context;
 
-import org.instancio.Instancio;
+import static co.mp.internal.context.ExampleGenerator.Configuration.DEFAULT_EXAMPLE_COUNT;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.OptionalInt;
-import java.util.Properties;
 
-import static co.mp.internal.context.ExampleGenerator.Configuration.DEFAULT_EXAMPLE_COUNT;
+import org.instancio.Instancio;
 
 final class ExampleGenerator<T> {
 
@@ -51,18 +49,7 @@ final class ExampleGenerator<T> {
     record PropertyConfiguration(OptionalInt _count) implements Configuration {
 
         PropertyConfiguration() {
-            this(loadExampleCount());
-        }
-
-        private static OptionalInt loadExampleCount() {
-            try (var inputStream = ExampleGenerator.class.getResourceAsStream("/comparator-verifier.properties")) {
-                var properties = new Properties();
-                properties.load(inputStream);
-                int value = Integer.parseInt(properties.getProperty("comparatorverifier.examples.count"));
-                return OptionalInt.of(value);
-            } catch (IOException | NumberFormatException | NullPointerException e) {
-                return OptionalInt.empty();
-            }
+            this(ComparatorVerifierProperties.getInstance().examplesCount());
         }
 
         public int count() {
