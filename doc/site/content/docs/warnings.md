@@ -11,8 +11,8 @@ the correctness of a `Comparator` implementation. Each warning
 corresponds to a specific contractual property that a well-implemented
 comparator should uphold.
 https://tomregan.github.io/comparatorverifier/docs/warnings/
-* 🇫🇷 [En français](/docs/fr/warnings.md)
-* 🇵🇱 [Po polsku](/docs/pl/warnings.md)
+* 🇫🇷 [En français](./fr/warnings.md)
+* 🇵🇱 [Po polsku](./pl/warnings.md)
 
 ## `ANTI_SYMMETRY`
 
