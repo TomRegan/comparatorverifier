@@ -11,9 +11,6 @@ vérification de la validité d'une implémentation de `Comparator`. Chaque
 avertissement correspond à une propriété contractuelle spécifique qu'un
 comparateur bien implémenté devrait respecter.
 
-* 🇬🇧 [In English](/comparatorverifier/docs/warnings.md)
-* 🇵🇱 [Po polsku](/comparatorverifier/docs/pl/warnings.md)
-
 ## `ANTI_SYMMETRY`
 
 Un comparateur viole l'anti-symétrie s'il renvoie des résultats
@@ -63,7 +60,5 @@ exceptions à l'exécution lors de tentatives de sérialisation.
 
 ## Références
 
-- [Java Platform SE 8 : Interface
-  `Comparator`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
-- [Pourquoi un Comparator devrait-il implémenter Serializable ? - Stack
-  Overflow](https://stackoverflow.com/questions/8642012/why-should-a-comparator-implement-serializable)
+- [Java Platform SE 8: `Comparator` Interface](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
+- [Why should a Comparator implement Serializable? - Stack Overflow](https://stackoverflow.com/questions/8642012/why-should-a-comparator-implement-serializable)

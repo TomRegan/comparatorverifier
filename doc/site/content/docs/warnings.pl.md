@@ -11,9 +11,6 @@ weryfikacji poprawności implementacji `Comparatora`. Każde ostrzeżenie
 odpowiada konkretnej właściwości umownej, którą dobrze zaimplementowany
 comparator powinien spełniać.
 
-* 🇬🇧 [In English](/comparatorverifier/docs/warnings.md)
-* 🇫🇷 [En français](/comparatorverifier/docs/fr/warnings.md)
-
 ## `ANTI_SYMMETRY`
 
 Comparator narusza zasadę antysymetrii, jeśli zwraca niespójne wyniki,
@@ -51,7 +48,7 @@ nieprzewidywalnych i błędnych zachowań sortowania.
 
 ## `SERIALIZABLE`
 
-*Wyłączone domyślnie.*
+_Wyłączone domyślnie._
 
 Comparator powinien implementować interfejs `Serializable`, jeśli ma być
 używany w kontekstach wymagających serializacji, takich jak struktury
@@ -61,7 +58,5 @@ podczas próby serializacji.
 
 ## Źródła
 
-- [Java Platform SE 8: Interfejs
-  `Comparator`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
-- [Dlaczego Comparator powinien implementować Serializable? - Stack
-  Overflow](https://stackoverflow.com/questions/8642012/why-should-a-comparator-implement-serializable)
+- [Java Platform SE 8: `Comparator` Interface](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
+- [Why should a Comparator implement Serializable? - Stack Overflow](https://stackoverflow.com/questions/8642012/why-should-a-comparator-implement-serializable)

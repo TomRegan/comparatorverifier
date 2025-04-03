@@ -10,9 +10,6 @@ This page outlines various warnings that may arise when verifying
 the correctness of a `Comparator` implementation. Each warning
 corresponds to a specific contractual property that a well-implemented
 comparator should uphold.
-https://tomregan.github.io/comparatorverifier/docs/warnings/
-* 🇫🇷 [En français](./fr/warnings.md)
-* 🇵🇱 [Po polsku](./pl/warnings.md)
 
 ## `ANTI_SYMMETRY`
 

@@ -35,7 +35,7 @@ Enables permissive verification, excluding the following checks:
 - `Warning.CONSISTENT_WITH_EQUALS`
 - `Warning.SERIALIZABLE`
 
-### `suppress(Warning first, Warning... rest)`
+### `suppress(Warning first, Warning... rest)` / `only(Warning first, Warning... rest)`
 
 {{% hint danger %}}
 A comparator that does not meet the comparator contract will not be safe to use with Java collections.
@@ -43,17 +43,7 @@ A comparator that does not meet the comparator contract will not be safe to use 
 Consider using `permissive()` or `strict()` instead to alter verification behaviour.
 {{% /hint %}}
 
-Suppresses specific warnings during verification.
-
-### `only(Warning first, Warning... rest)`
-
-{{% hint danger %}}
-A comparator that does not meet the comparator contract will not be safe to use with Java collections.
-
-Consider using `permissive()` or `strict()` instead to alter verification behaviour.
-{{% /hint %}}
-
-Includes only specific warnings during verification.
+Suppresses/include-only specific warnings during verification.
 
 ### `verify()`
 
