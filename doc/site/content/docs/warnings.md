@@ -11,6 +11,9 @@ the correctness of a `Comparator` implementation. Each warning
 corresponds to a specific contractual property that a well-implemented
 comparator should uphold.
 
+* 🇫🇷 [En français](fr/warnings.md)
+* 🇵🇱 [Po polsku](pl/warnings.md)
+
 ## `ANTI_SYMMETRY`
 
 A comparator violates anti-symmetry if it returns inconsistent results
