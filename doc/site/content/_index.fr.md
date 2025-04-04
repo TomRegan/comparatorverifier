@@ -3,6 +3,23 @@
 Comparator Verifier est une API fluent permettant de tester si une
 implémentation de `Comparator` respecte le contrat requis.
 
+Un comparateur qui ne respecte pas le contrat finira, tôt ou tard,
+par probablement lancer cette exception :
+
+```terminal
+java.lang.IllegalArgumentException: Comparison method violates its general contract!
+    at java.util.ComparableTimSort.mergeHi(ComparableTimSort.java:835)
+    at java.util.ComparableTimSort.mergeAt(ComparableTimSort.java:453)
+    at java.util.ComparableTimSort.mergeForceCollapse(ComparableTimSort.java:392)
+    at java.util.ComparableTimSort.sort(ComparableTimSort.java:191)
+    at java.util.ComparableTimSort.sort(ComparableTimSort.java:146)
+    at java.util.Arrays.sort(Arrays.java:472)
+    at java.util.Collections.sort(Collections.java:155)
+    ...
+```
+
+Corrigeons cela.
+
 ## Avec Maven
 
 Ajoutez `comparatorverifier` dans votre `pom.xml`.
@@ -129,5 +146,3 @@ final class FooComparatorTest {
     }
 }
 ```
-
-\`\`\`

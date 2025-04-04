@@ -3,6 +3,23 @@
 Comparator Verifier to płynne API do testowania, czy implementacja
 `Comparatora` spełnia wymagany kontrakt.
 
+Komparator, który nie spełnia kontraktu, prędzej czy później
+najprawdopodobniej wyrzuci ten wyjątek:
+
+```terminal
+java.lang.IllegalArgumentException: Comparison method violates its general contract!
+    at java.util.ComparableTimSort.mergeHi(ComparableTimSort.java:835)
+    at java.util.ComparableTimSort.mergeAt(ComparableTimSort.java:453)
+    at java.util.ComparableTimSort.mergeForceCollapse(ComparableTimSort.java:392)
+    at java.util.ComparableTimSort.sort(ComparableTimSort.java:191)
+    at java.util.ComparableTimSort.sort(ComparableTimSort.java:146)
+    at java.util.Arrays.sort(Arrays.java:472)
+    at java.util.Collections.sort(Collections.java:155)
+    ...
+```
+
+Naprawmy to.
+
 ## Z Maven
 
 Dodaj `comparatorverifier` do pliku `pom.xml`.
