@@ -20,6 +20,9 @@ weight = 2
 [languages.pl]
 languageName = "Polski"
 weight = 3
+[languages.bg]
+languageName = "български"
+weight = 4
 
 [markup.goldmark.renderer]
 unsafe = true
