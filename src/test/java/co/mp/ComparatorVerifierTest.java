@@ -75,10 +75,10 @@ final class ComparatorVerifierTest {
     void it_should_detect_when_consistency_with_equals_is_violated() {
         var a = new SimpleValue(1);
         var b = new SimpleValue(1);
+        var c = new SimpleValue(1);
         var error = assertThrows(ComparatorVerificationException.class, () ->
                 ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
-                        .suppress(Warning.TRANSITIVITY, Warning.SERIALIZABLE)
-                        .withExamples(a, b)
+                        .withExamples(a, b, c)
                         .verify());
         assertTrue(error.report().hasFailureReason(Warning.CONSISTENT_WITH_EQUALS));
     }
@@ -116,7 +116,7 @@ final class ComparatorVerifierTest {
                 () -> ComparatorVerifier.forComparator(Integer::compare, Integer.class)
                         .withGeneratedExamples(2)
                         .verify());
-        var expected = "Too few examples (2) to test transitivity! Disable this test using suppress(Warning.TRANSITIVITY) " +
+        var expected = "Too few examples (2/3) to test transitivity! Disable this test using suppress(Warning.TRANSITIVITY) " +
                 "or add more examples";
         assertEquals(expected, error.getMessage());
     }

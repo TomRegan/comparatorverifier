@@ -42,7 +42,7 @@ final class IsAntiSymmetric<T> implements ComparatorPredicate<T> {
                     return failure(
                             comparator.getClass(),
                             warning(),
-                            a + " and " + b + ": compare(a, b) = " + cmp + ", compare(b, a) = " + cmpReverse);
+                            "compare(" + a + ", " + b + ") = " + cmp + ", compare(" + b + ", " + a + ") = " + cmpReverse);
                 }
             }
         }

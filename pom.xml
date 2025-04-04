@@ -49,6 +49,12 @@
         <version>5.3.0</version>
         <scope>compile</scope>
       </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-nop</artifactId>
+        <version>2.0.16</version>
+        <scope>compile</scope>
+      </dependency>
       <!-- test -->
       <!-- bom -->
       <dependency>
@@ -66,6 +72,10 @@
     <dependency>
       <groupId>org.instancio</groupId>
       <artifactId>instancio-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
     </dependency>
     <!-- test -->
     <dependency>

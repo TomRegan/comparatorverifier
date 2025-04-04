@@ -14,15 +14,17 @@ final class ComparatorVerifierReportTest {
     @Test
     void it_should_format_a_report_with_multiple_failures() {
         var expected = """
-                ComparatorVerifier found a problem in class java.util.Comparators$NaturalOrderComparator
-                -> Anti-symmetry violated: 1 and 1: compare(a, b) = 1, compare(b, a) = 1
-                    See https://tomregan.github.io/comparatorverifier/docs/warnings/#anti_symmetry for further details.
+                ComparatorVerifier found a problem in java.util.Comparators$NaturalOrderComparator
+                -> Anti-symmetry violated: compare(1, 1) = 1, compare(1, 1) = 1
+                   Constraint: sgn(compare(x, y)) == -sgn(compare(y, x))
+                   See https://tomregan.github.io/comparatorverifier/docs/warnings/#anti_symmetry for further details.
                 -> Transitivity violated: 1 > 1 and 1 > 1 but 1 !> 1
-                    See https://tomregan.github.io/comparatorverifier/docs/warnings/#transitivity for further details.""";
+                   Constraint: (compare(x, y) > 0) && (compare(y, z) > 0) implies that compare(x, z) > 0
+                   See https://tomregan.github.io/comparatorverifier/docs/warnings/#transitivity for further details.""";
         var results = List.of(
                 failure(Comparator.naturalOrder().getClass(),
                         Warning.ANTI_SYMMETRY,
-                        "1 and 1: compare(a, b) = 1, compare(b, a) = 1"),
+                        "compare(1, 1) = 1, compare(1, 1) = 1"),
                 failure(Comparator.naturalOrder().getClass(),
                         Warning.TRANSITIVITY,
                         "1 > 1 and 1 > 1 but 1 !> 1"));

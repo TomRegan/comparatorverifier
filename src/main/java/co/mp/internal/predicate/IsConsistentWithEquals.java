@@ -38,7 +38,7 @@ final class IsConsistentWithEquals<T> implements ComparatorPredicate<T> {
                     return failure(
                             comparator.getClass(),
                             warning(),
-                            a + " and " + b);
+                            "(compare(" + a + ", " + b + ") = " + cmp + "), (" + a + ".equals(" + b + ") = " + isEqual);
                 }
             }
         }

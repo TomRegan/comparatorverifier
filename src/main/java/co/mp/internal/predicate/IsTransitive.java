@@ -1,6 +1,7 @@
 package co.mp.internal.predicate;
 
 import co.mp.Warning;
+
 import static co.mp.internal.predicate.Result.failure;
 import static co.mp.internal.predicate.Result.success;
 
@@ -31,28 +32,22 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
         if (examples.size() < 3) {
             var enumName = Warning.class.getSimpleName();
             var memberName = Warning.TRANSITIVITY.name();
-            throw new IllegalArgumentException("Too few examples (" + examples.size() + ") to test transitivity! " +
+            throw new IllegalArgumentException("Too few examples (" + examples.size() + "/3) to test transitivity! " +
                     "Disable this test using suppress(" + enumName + "." + memberName + ") or add more examples");
         }
-        //  if a > b and b > c then a > c, and if a < b and b < c then a < c.
         for (T a : examples) {
             for (T b : examples.subList(1, examples.size())) {
                 for (T c : examples.subList(2, examples.size())) {
                     int cmpAB = comparator.compare(a, b);
                     int cmpBC = comparator.compare(b, c);
                     int cmpAC = comparator.compare(a, c);
-                    if (cmpAB > 0 && cmpBC > 0 && cmpAC <= 0) {
+                    if ((cmpAB > 0 && cmpBC > 0 && cmpAC <= 0) || (cmpAB < 0 && cmpBC < 0 && cmpAC >= 0)) {
                         return failure(
                                 comparator.getClass(),
                                 warning(),
-                                "Transitivity violated: " + a + " > " + b + " and " + b + " > " + c +
-                                        " but " + a + " !> " + c);
-                    }
-                    if (cmpAB < 0 && cmpBC < 0 && cmpAC >= 0) {
-                        return failure(
-                                comparator.getClass(),
-                                warning(),
-                                a + " < " + b + " and " + b + " < " + c + " but " + a + " !< " + c);
+                                "(compare(" + a + ", " + b + ") = " + cmpAB + "), " +
+                                        "(compare(" + b + ", " + c + ") = " + cmpBC + "), " +
+                                        "(compare(" + a + ", " + c + ") = " + cmpAC + ")");
                     }
                 }
             }

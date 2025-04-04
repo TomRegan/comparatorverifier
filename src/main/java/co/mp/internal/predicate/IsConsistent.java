@@ -27,16 +27,27 @@ final class IsConsistent<T> implements ComparatorPredicate<T> {
 
     @Override
     public Result test(List<T> examples) {
+        // if we have too few examples, we cannot test, so notify the user
+        if (examples.size() < 3) {
+            var enumName = Warning.class.getSimpleName();
+            var memberName = warning().name();
+            throw new IllegalArgumentException("Too few examples (" + examples.size() + "/3) to test consistency! " +
+                    "Disable this test using suppress(" + enumName + "." + memberName + ") or add more examples");
+        }
         // if comparator.compare(a, b) == 0 then for every c, sign(comparator.compare(a, c)) should equal sign(comparator.compare(b, c))
         for (T a : examples) {
             for (T b : examples.subList(1, examples.size())) {
                 if (comparator.compare(a, b) == 0) {
                     for (T c : examples) {
-                        if (Integer.signum(comparator.compare(a, c)) != Integer.signum(comparator.compare(b, c))) {
+                        var cmpAC = Integer.signum(comparator.compare(a, c));
+                        var cmpBC = Integer.signum(comparator.compare(b, c));
+                        if (cmpAC != cmpBC) {
                             return failure(
                                     comparator.getClass(),
                                     warning(),
-                                    a + " and " + b + " compare equal but differ when compared with " + c);
+                                    "(compare(" + a + ", " + b + ") = 0), " +
+                                            "(signum(compare(" + a + ", " + c + ")) = " + cmpAC + "), " +
+                                            "(signum(compare(" + b + ", " + c + ")) = " + cmpBC + ")");
                         }
                     }
                 }
