@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -18,7 +19,7 @@ import java.util.stream.Collector;
 
 public final class ComparatorVerifierReport {
     private final List<Result> results = new ArrayList<>();
-    private final ResourceBundle bundle = ResourceBundle.getBundle("messages");
+    private final ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     public void add(Result result) {
         if (result.successful()) {
@@ -60,8 +61,9 @@ public final class ComparatorVerifierReport {
     private String resultToString(Result result) {
         var key = "warning." + result.warning().name().toLowerCase().replace('_', '.');
         var resultFormat = new MessageFormat(bundle.getString(key));
+        var message = result.message();
         return resultFormat.format(new Object[]{
-                result.message()
+                message
         });
     }
 
