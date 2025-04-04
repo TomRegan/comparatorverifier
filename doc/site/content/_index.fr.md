@@ -1,10 +1,10 @@
-# Démarrage
+# Comparator Verifier
 
-Comparator Verifier est une API fluent permettant de tester si une
-implémentation de `Comparator` respecte le contrat requis.
+## Comparison method violates its general contract!
 
-Un comparateur qui ne respecte pas le contrat finira, tôt ou tard,
-par probablement lancer cette exception :
+Si vous avez écrit un comparateur qui ne respecte pas le contrat défini dans la
+[Javadoc](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html),
+voici généralement comment vous vous en rendez compte :
 
 ```terminal
 java.lang.IllegalArgumentException: Comparison method violates its general contract!
@@ -20,9 +20,17 @@ java.lang.IllegalArgumentException: Comparison method violates its general contr
 
 Corrigeons cela.
 
-## Avec Maven
+# Démarrage
 
-Ajoutez `comparatorverifier` dans votre `pom.xml`.
+Comparator Verifier est une API fluide permettant de tester si une implémentation de `Comparator`
+respecte le contrat requis, en écrivant un simple test unitaire.
+
+
+## Ajouter la Dépendance
+
+{{% tabs "id" %}}
+{{% tab "Maven" %}}
+Ajoutez `comparatorverifier` à votre fichier `pom.xml`.
 
 ``` xml
 <dependency>
@@ -32,35 +40,32 @@ Ajoutez `comparatorverifier` dans votre `pom.xml`.
     <scope>test</scope>
 </dependency>
 ```
+{{% /tab %}}
+{{% tab "Gradle Groovy" %}}
+Ajoutez comparatorverifier à votre fichier build.gradle.
 
-## Avec Gradle
-
-Ajoutez `comparatorverifier` dans votre fichier `build.gradle`.
-
-### Utilisation du DSL Groovy
-
-``` gradle
+```gradle
 dependencies {
     testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
 }
 ```
+{{% /tab %}}
+{{% tab "Gradle Kotlin" %}}
+Ajoutez comparatorverifier à votre fichier build.gradle.kts.
 
-### Utilisation du DSL Kotlin
-
-``` kotlin
+```kotlin
 dependencies {
     testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
 }
-```
+``` 
+{{% /tab %}}
+{{% /tabs %}}
 
-## Avec JUnit
+## Écrire un Test
 
-Écrivez un test unitaire pour votre comparator.
+Écrivez un test unitaire pour votre comparateur.
 
 ``` java
-import co.mp.ComparatorVerifier;
-import org.junit.jupiter.api.Test;
-
 @Test
 void comparatorContract() {
     ComparatorVerifier.forComparator(FooComparator.class).verify();

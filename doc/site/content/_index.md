@@ -1,10 +1,10 @@
-# Getting Started
+# Comparator Verifier
 
-Comparator Verifier is a fluent API for testing that a `Comparator`
-implementation adheres to the required contract.
+## Comparison method violates its general contract!
 
-A comparator that doesn't meet the contract will sooner or later,
-probably throw this exception:
+If you've written a comparator that doesn't follow the contract outlined in
+the [Javadoc](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html),
+this is how you usually find out about it:
 
 ```terminal
 java.lang.IllegalArgumentException: Comparison method violates its general contract!
@@ -20,8 +20,16 @@ java.lang.IllegalArgumentException: Comparison method violates its general contr
 
 Let's fix that.
 
-## With Maven
+# Getting Started
 
+Comparator Verifier is a fluent API for testing that a `Comparator`
+implementation adheres to the required contract, by writing a
+simple unit test.
+
+## Add the Dependency
+
+{{% tabs "id" %}}
+{{% tab "Maven" %}}
 Add `comparatorverifier` to your `pom.xml`.
 
 ``` xml
@@ -32,35 +40,32 @@ Add `comparatorverifier` to your `pom.xml`.
     <scope>test</scope>
 </dependency>
 ```
-
-## With Gradle
-
+{{% /tab %}}
+{{% tab "Gradle Groovy" %}}
 Add `comparatorverifier` to your `build.gradle` file.
-
-### Using Groovy DSL
 
 ```gradle
 dependencies {
     testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
 }
 ```
-
-### Using Kotlin DSL
+{{% /tab %}}
+{{% tab "Gradle Kotlin" %}}
+Add `comparatorverifier` to your `build.gradle.kts` file.
 
 ```kotlin
 dependencies {
     testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
 }
 ``` 
+{{% /tab %}}
+{{% /tabs %}}
 
-## With JUnit
+## Write a Test
 
 Write a unit test for your comparator.
 
 ``` java
-import co.mp.ComparatorVerifier;
-import org.junit.jupiter.api.Test;
-
 @Test
 void comparatorContract() {
     ComparatorVerifier.forComparator(FooComparator.class).verify();
@@ -69,7 +74,7 @@ void comparatorContract() {
 
 # Further Usage
 
-## Example Usage with JUnit
+## More Examples with JUnit
 
 Comparator Verifier allows for configurable verification,
 enabling both strict and permissive checks.

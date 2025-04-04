@@ -1,10 +1,10 @@
-# Първи стъпки
+# Comparator Verifier
 
-Comparator Verifier е fluent API за тестване дали имплементацията на
-`Comparator` спазва изисквания договор.
+## Comparison method violates its general contract!
 
-Компаратор, който не спазва договора, рано или късно
-вероятно ще хвърли следното изключение:
+Ако сте написали компаратор, който не спазва договора, описан в
+[Javadoc](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html),
+ето как обикновено разбирате за това:
 
 ```terminal
 java.lang.IllegalArgumentException: Comparison method violates its general contract!
@@ -20,9 +20,17 @@ java.lang.IllegalArgumentException: Comparison method violates its general contr
 
 Нека го оправим.
 
-## С Maven
+# Първи стъпки
 
-Добавете `comparatorverifier` към вашия `pom.xml`.
+Comparator Verifier е интуитивно API за тестване дали дадена имплементация на `Comparator`
+спазва изисквания договор, чрез написване на обикновен юнит тест.
+
+## Добавяне на Зависимост
+
+{{% tabs "id" %}}
+{{% tab "Maven" %}}
+
+Добавете `comparatorverifier` към вашия файл `pom.xml`.
 
 ``` xml
 <dependency>
@@ -33,34 +41,33 @@ java.lang.IllegalArgumentException: Comparison method violates its general contr
 </dependency>
 ```
 
-## С Gradle
-
+{{% /tab %}}
+{{% tab "Gradle Groovy" %}}
 Добавете `comparatorverifier` към вашия файл `build.gradle`.
 
-### С Groovy DSL
-
-``` gradle
+```gradle
 dependencies {
     testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
 }
 ```
+{{% /tab %}}
+{{% tab "Gradle Kotlin" %}}
+Добавете `comparatorverifier` към вашия файл `build.gradle.kts`.
 
-### С Kotlin DSL
-
-``` kotlin
+```kotlin
 dependencies {
     testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
 }
 ```
+{{% /tab %}}
+{{% /tabs %}}
 
-## С JUnit
 
-Напишете unit тест за вашия компаратор.
+## Напишете Тест
+
+Напишете юнит тест за вашия компаратор.
 
 ``` java
-import co.mp.ComparatorVerifier;
-import org.junit.jupiter.api.Test;
-
 @Test
 void comparatorContract() {
     ComparatorVerifier.forComparator(FooComparator.class).verify();
@@ -121,11 +128,13 @@ final class FooComparatorTest {
 
 ### Верификация с потиснати предупреждения
 
+
 {{% hint danger %}} Компаратор, който не отговаря на договора за
 Comparator, не е безопасен за използване с Java колекции.
 
 Обмислете използване на `permissive()` или `strict()` за промяна на
 поведението на верификацията. {{% /hint %}}
+
 
 ``` java
 import co.mp.ComparatorVerifier;

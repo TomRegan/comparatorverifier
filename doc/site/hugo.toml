@@ -26,3 +26,9 @@ weight = 4
 
 [markup.goldmark.renderer]
 unsafe = true
+
+[menu]
+[[menu.after]]
+name = "Github"
+url = "https://github.com/TomRegan/comparatorverifier"
+weight = 10
