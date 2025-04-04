@@ -3,44 +3,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Project Settings -->
     <groupId>io.github.tomregan</groupId>
     <artifactId>comparatorverifier</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-
-    <name>Comparator Verifier</name>
-    <description>Comparator Verifier is intended for use in tests to validate the contract for Comparator is met.
-    </description>
-    <url>https://tomregan.github.io/comparatorverifier</url>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <scm>
-        <connection>git@github.com:TomRegan/comparatorverifier.git</connection>
-        <developerConnection>git@github.com:TomRegan/comparatorverifier.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
-
-    <issueManagement>
-        <system>github</system>
-        <url>https://github.com/TomRegan/comparatorverifier/issues</url>
-    </issueManagement>
-
-    <ciManagement>
-        <system>github</system>
-        <url>https://github.com/TomRegan/tomregan.github.io/actions</url>
-    </ciManagement>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
-    </properties>
-
+    <dependencies>
+        <!-- compile -->
+        <dependency>
+            <groupId>org.instancio</groupId>
+            <artifactId>instancio-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <dependencyManagement>
         <dependencies>
             <!-- compile -->
@@ -65,22 +45,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
+    </properties>
 
-    <dependencies>
-        <!-- compile -->
-        <dependency>
-            <groupId>org.instancio</groupId>
-            <artifactId>instancio-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <!-- test -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
+    <!-- Build Settings -->
     <build>
         <pluginManagement>
             <plugins>
@@ -177,7 +147,42 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
+
+    <!-- Project Information -->
+    <name>Comparator Verifier</name>
+    <description>
+        Comparator Verifier is intended for use in tests to validate the contract for Comparator is met.
+    </description>
+    <url>https://tomregan.github.io/comparatorverifier</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- Environment Settings -->
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/TomRegan/comparatorverifier/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>github</system>
+        <url>https://github.com/TomRegan/tomregan.github.io/actions</url>
+    </ciManagement>
+    <scm>
+        <connection>git@github.com:TomRegan/comparatorverifier.git</connection>
+        <developerConnection>git@github.com:TomRegan/comparatorverifier.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub TomRegan Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/tomregan/comparatorverifier</url>
+        </repository>
+    </distributionManagement>
 </project>
