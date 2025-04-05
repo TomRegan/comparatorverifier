@@ -8,7 +8,7 @@ import java.util.Comparator;
 public interface Violation {
 
     /**
-     * A {@link Comparator} should be Serializable for compatibility with Collections
+     * A {@link java.util.Comparator} should be Serializable for compatibility with Collections
      * Implementations. This Violation simple doesn't implement Serializable and is
      * intended to make testing clearer and easier.
      */
@@ -34,7 +34,7 @@ public interface Violation {
     }
 
     /**
-     * A {@link Comparator} implementation that violates the anti-symmetry rule.
+     * A {@link java.util.Comparator} implementation that violates the anti-symmetry rule.
      *
      * @implNote This comparator defines an ordering where any two distinct instances are
      * considered unequal, but in a non-symmetric manner. Specifically, it always
@@ -55,7 +55,7 @@ public interface Violation {
     }
 
     /**
-     * A comparator that violates the consistency requirement of {@link Comparator}.
+     * A comparator that violates the consistency requirement of {@link java.util.Comparator}.
      *
      * @implNote This comparator considers two {@code ConsistentValue} objects equal if they have the same
      * {@code base} value, ignoring the {@code offset} in such cases. However, when the {@code base}
@@ -74,11 +74,11 @@ public interface Violation {
     }
 
     /**
-     * This {@link Comparator} implementation intentionally violates the reflexivity property of comparison.
+     * This {@link java.util.Comparator} implementation intentionally violates the reflexivity property of comparison.
      *
      * @implNote This comparator defines an inconsistent comparison rule where comparing an object
      * with itself (`a == b`) does not return `0`, but instead returns `1`. This breaks
-     * the expected contract of {@link Comparator}, which requires that
+     * the expected contract of {@link java.util.Comparator}, which requires that
      * {@code compare(x, x) == 0} for all {@code x}.
      */
     final class ViolatesReflexivity implements Comparator<SimpleValue> {
@@ -95,7 +95,7 @@ public interface Violation {
     }
 
     /**
-     * This {@link Comparator} implementation deliberately violates the transitivity contract.
+     * This {@link java.util.Comparator} implementation deliberately violates the transitivity contract.
      * It introduces a cyclic ordering based on an assumed comparison set of 3.
      *
      * @implNote Inputs are grouped into one of three equivalence classes, and rather than comparing

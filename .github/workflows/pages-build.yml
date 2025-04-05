@@ -3,8 +3,9 @@ name: pages-build
 on:
   push:
     branches:
-      - main  # Set a branch name to trigger deployment
-  pull_request:
+      - main
+    paths:
+      - doc/site/**
 
 jobs:
   deploy:

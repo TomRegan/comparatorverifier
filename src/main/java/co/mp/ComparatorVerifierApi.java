@@ -9,12 +9,12 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * Provides a fluent API to verify the correctness of a {@link Comparator} implementation. <p>
+ * Provides a fluent API to verify the correctness of a {@link java.util.Comparator} implementation. <p>
  * Use {@link #create(Comparator, Class)} to instantiate this class and configure verification options
  * using methods such as {@link #withExamples(Object, Object, Object...)}, {@link #strict()}, or {@link #suppress(Warning, Warning...)}.
  * Finally, call {@link #verify()} to run the verification process. </p>
  *
- * @param <T> the type of objects compared by the {@link Comparator}
+ * @param <T> the type of objects compared by the {@link java.util.Comparator}
  */
 public final class ComparatorVerifierApi<T> {
 
@@ -69,8 +69,8 @@ public final class ComparatorVerifierApi<T> {
     /**
      * Enables permissive verification, the following checks are excluded:
      * <ul>
-     * <li>{@link Warning.CONSISTENT_WITH_EQUALS}
-     * <li>{@link Warning.SERIALIZABLE}
+     * <li>{@link Warning#CONSISTENT_WITH_EQUALS}
+     * <li>{@link Warning#SERIALIZABLE}
      * </ul>
      *
      * @return {@code this}, for method chaining
@@ -83,7 +83,7 @@ public final class ComparatorVerifierApi<T> {
     /**
      * Enables strict verification, the following checks are included:
      * <ul>
-     * <li>{@link Warning.SERIALIZABLE}
+     * <li>{@link Warning#SERIALIZABLE}
      * </ul>
      *
      * @return {@code this}, for method chaining

@@ -95,10 +95,6 @@
                     <artifactId>maven-install-plugin</artifactId>
                     <version>3.1.4</version>
                 </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.4</version>
-                </plugin>
                 <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
@@ -111,6 +107,38 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                            <additionalJOptions>
+                                <additionalJOption>-Xdoclint:none</additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -178,6 +206,14 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Tom Regan</name>
+            <email>pendant.4.daybeds@icloud.com</email>
+            <organization>GitHub</organization>
+            <organizationUrl>https://github.com/TomRegan</organizationUrl>
+        </developer>
+    </developers>
 
     <!-- Environment Settings -->
     <issueManagement>
@@ -189,15 +225,61 @@
         <url>https://github.com/TomRegan/tomregan.github.io/actions</url>
     </ciManagement>
     <scm>
-        <connection>git@github.com:TomRegan/comparatorverifier.git</connection>
-        <developerConnection>git@github.com:TomRegan/comparatorverifier.git</developerConnection>
-        <tag>HEAD</tag>
+        <connection>scm:git:git@github.com:TomRegan/comparatorverifier.git</connection>
+        <developerConnection>scm:git:git@github.com:TomRegan/comparatorverifier.git</developerConnection>
+        <url>https://github.com/TomRegan/comparatorverifier</url>
     </scm>
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub TomRegan Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/tomregan/comparatorverifier</url>
-        </repository>
-    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>ossrh</id>
+                    <name>OSSRH Release Repository</name>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <name>OSSRH Snapshot Repository</name>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.7.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.7</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>3.1.4</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

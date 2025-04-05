@@ -9,7 +9,7 @@ import java.util.Comparator;
  * {@code ComparatorVerifier} is intended for use in tests to validate the contract for Comparator is met. <p>
  * The comparison contract is described in the Javadoc for {@link Comparator#compare(Object, Object)}, and
  * additional guidance on consistency with equals, and serializability is given in the class Javadoc for
- * {@link Comparator}.
+ * {@link java.util.Comparator}.
  */
 public final class ComparatorVerifier {
 
