@@ -28,7 +28,7 @@ jobs:
         run: ./mvnw versions:set -DnewVersion=${{ github.event.release.tag_name }}
 
       - name: Publish to GitHub Packages Apache Maven
-        run: ./mvnw --profile github --batch-mode deploy
+        run: ./mvnw --activate-profiles github --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -44,7 +44,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Publish to the Maven Central Repository
-        run: ./mvnw --profile central --batch-mode deploy -DskipTests
+        run: ./mvnw --activate-profiles central --batch-mode deploy -DskipTests
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
