@@ -30,7 +30,7 @@ jobs:
       - name: Publish to GitHub Packages Apache Maven
         run: ./mvnw --activate-profiles github --batch-mode deploy -DskipTests
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Set up Java for publishing to Maven Central Repository
         uses: actions/setup-java@v4
