@@ -36,7 +36,7 @@ Add `comparatorverifier` to your `pom.xml`.
 <dependency>
     <groupId>io.github.tomregan</groupId>
     <artifactId>comparatorverifier</artifactId>
-    <version>x.y.x</version>
+    <version>1.0.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -46,7 +46,7 @@ Add `comparatorverifier` to your `build.gradle` file.
 
 ```gradle
 dependencies {
-    testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
+    testImplementation 'io.github.tomregan:comparatorverifier:1.0.0'
 }
 ```
 {{% /tab %}}
@@ -55,7 +55,7 @@ Add `comparatorverifier` to your `build.gradle.kts` file.
 
 ```kotlin
 dependencies {
-    testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
+    testImplementation("io.github.tomregan:comparatorverifier:1.0.0")
 }
 ``` 
 {{% /tab %}}
