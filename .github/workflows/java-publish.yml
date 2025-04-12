@@ -22,7 +22,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           server-id: github
-          settings-path: ${{ github.workspace }}
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
 
       - name: Set version
         run: ./mvnw versions:set -DnewVersion=${{ github.event.release.tag_name }}
@@ -30,6 +31,7 @@ jobs:
       - name: Publish to GitHub Packages Apache Maven
         run: ./mvnw --activate-profiles github --batch-mode deploy -DskipTests
         env:
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Set up Java for publishing to Maven Central Repository
