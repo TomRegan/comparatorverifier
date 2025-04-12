@@ -36,7 +36,7 @@ Comparator Verifier е интуитивно API за тестване дали �
 <dependency>
     <groupId>io.github.tomregan</groupId>
     <artifactId>comparatorverifier</artifactId>
-    <version>x.y.x</version>
+    <version>1.0.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -47,7 +47,7 @@ Comparator Verifier е интуитивно API за тестване дали �
 
 ```gradle
 dependencies {
-    testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
+    testImplementation 'io.github.tomregan:comparatorverifier:1.0.0'
 }
 ```
 {{% /tab %}}
@@ -56,7 +56,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
+    testImplementation("io.github.tomregan:comparatorverifier:1.0.0")
 }
 ```
 {{% /tab %}}
