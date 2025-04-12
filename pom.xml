@@ -231,24 +231,17 @@
     </scm>
     <profiles>
         <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>release</name>
-                </property>
-            </activation>
+            <id>github</id>
             <distributionManagement>
                 <repository>
-                    <id>ossrh</id>
-                    <name>OSSRH Release Repository</name>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/octocat/hello-world</url>
                 </repository>
-                <snapshotRepository>
-                    <id>ossrh</id>
-                    <name>OSSRH Snapshot Repository</name>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
             </distributionManagement>
+        </profile>
+        <profile>
+            <id>central</id>
             <build>
                 <plugins>
                     <plugin>
@@ -273,6 +266,12 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <artifactId>maven-deploy-plugin</artifactId>
