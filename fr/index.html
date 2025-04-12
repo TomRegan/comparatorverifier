@@ -26,16 +26,16 @@ respecte le contrat requis, en écrivant un simple test unitaire.</p><h2 id=ajou
 <label for=tabs-id-0>Maven</label><div class="book-tabs-content markdown-inner"><p>Ajoutez <code>comparatorverifier</code> à votre fichier <code>pom.xml</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;dependency&gt;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>io.github.tomregan<span style=color:#f92672>&lt;/groupId&gt;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>comparatorverifier<span style=color:#f92672>&lt;/artifactId&gt;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>x.y.x<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>1.0.0<span style=color:#f92672>&lt;/version&gt;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>&lt;/dependency&gt;</span>
 </span></span></code></pre></div></div><input type=radio class=toggle name=tabs-id id=tabs-id-1>
 <label for=tabs-id-1>Gradle Groovy</label><div class="book-tabs-content markdown-inner"><p>Ajoutez comparatorverifier à votre fichier build.gradle.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    testImplementation <span style=color:#e6db74>&#39;io.github.tomregan:comparatorverifier:x.y.x&#39;</span>
+</span></span><span style=display:flex><span>    testImplementation <span style=color:#e6db74>&#39;io.github.tomregan:comparatorverifier:1.0.0&#39;</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>}</span>
 </span></span></code></pre></div></div><input type=radio class=toggle name=tabs-id id=tabs-id-2>
 <label for=tabs-id-2>Gradle Kotlin</label><div class="book-tabs-content markdown-inner"><p>Ajoutez comparatorverifier à votre fichier build.gradle.kts.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=display:flex><span>dependencies {
-</span></span><span style=display:flex><span>    testImplementation(<span style=color:#e6db74>&#34;io.github.tomregan:comparatorverifier:x.y.x&#34;</span>)
+</span></span><span style=display:flex><span>    testImplementation(<span style=color:#e6db74>&#34;io.github.tomregan:comparatorverifier:1.0.0&#34;</span>)
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div></div></div><h2 id=écrire-un-test>Écrire un Test
 <a class=anchor href=#%c3%a9crire-un-test>#</a></h2><p>Écrivez un test unitaire pour votre comparateur.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Test</span>
