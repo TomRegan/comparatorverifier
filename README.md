@@ -1,5 +1,10 @@
 # Comparator Verifier
 
+[![Java Build](https://github.com/tomregan/comparatorverifier/actions/workflows/java-build.yml/badge.svg)](https://github.com/tomregan/comparatorverifier/actions)
+[![Apache License 2.0](https://img.shields.io/:license-Apache%20License%202.0-blue.svg?style=shield)](https://github.com/jqno/equalsverifier/blob/master/LICENSE.md)
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tomregan/comparatorverifier)]([https://maven-badges.herokuapp.com/maven-central/nl.jqno.equalsverifier/equalsverifier/](https://central.sonatype.com/artifact/io.github.tomregan/comparatorverifier))
+[![Javadoc](https://javadoc.io/badge2/io.github.tomregan/comparatorverifier/javadoc.svg?color=blue)](https://javadoc.io/doc/io.github.tomregan/comparatorverifier)
+
 Comparator Verifier is intended for use in tests to validate the contract for Comparator is met.
 
 ## Getting Started
@@ -10,7 +15,7 @@ Comparator Verifier is intended for use in tests to validate the contract for Co
 <dependency>
     <groupId>co.mp</groupId>
     <artifactId>comparatorverifier</artifactId>
-    <version>x.y.x</version>
+    <version>1.0.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -23,7 +28,7 @@ Add `comparatorverifier` to your `build.gradle` file.
 
 ```gradle
 dependencies {
-    testImplementation 'io.github.tomregan:comparatorverifier:x.y.x'
+    testImplementation 'io.github.tomregan:comparatorverifier:1.0.0'
 }
 ```
 
@@ -31,7 +36,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    testImplementation("io.github.tomregan:comparatorverifier:x.y.x")
+    testImplementation("io.github.tomregan:comparatorverifier:1.0.0")
 }
 ``` 
 
