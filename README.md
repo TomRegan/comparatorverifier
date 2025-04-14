@@ -13,7 +13,7 @@ Comparator Verifier is intended for use in tests to validate the contract for Co
 
 ```xml
 <dependency>
-    <groupId>co.mp</groupId>
+    <groupId>io.github.tomregan</groupId>
     <artifactId>comparatorverifier</artifactId>
     <version>1.0.0</version>
     <scope>test</scope>
