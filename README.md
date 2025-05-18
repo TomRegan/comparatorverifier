@@ -1,7 +1,7 @@
 # Comparator Verifier
 
 [![Java Build](https://github.com/tomregan/comparatorverifier/actions/workflows/java-build.yml/badge.svg)](https://github.com/tomregan/comparatorverifier/actions)
-[![Apache License 2.0](https://img.shields.io/:license-Apache%20License%202.0-blue.svg?style=shield)](https://github.com/jqno/equalsverifier/blob/master/LICENSE.md)
+[![Apache License 2.0](https://img.shields.io/:license-Apache%20License%202.0-blue.svg?style=shield)](https://github.com/TomRegan/comparatorverifier/blob/main/LICENSE.md)
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tomregan/comparatorverifier)](https://central.sonatype.com/artifact/io.github.tomregan/comparatorverifier)
 [![Javadoc](https://javadoc.io/badge2/io.github.tomregan/comparatorverifier/javadoc.svg?color=blue)](https://javadoc.io/doc/io.github.tomregan/comparatorverifier)
 
