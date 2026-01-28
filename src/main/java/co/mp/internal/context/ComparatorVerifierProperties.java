@@ -3,6 +3,7 @@ package co.mp.internal.context;
 import co.mp.exception.ComparatorVerifierPropertiesException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Properties;
@@ -15,7 +16,7 @@ final class ComparatorVerifierProperties {
     private final String mode;
 
     private ComparatorVerifierProperties() {
-        var properties = load();
+        Properties properties = load();
         this.examplesCount = properties.getProperty("comparatorverifier.examples.count");
         this.mode = properties.getProperty("comparatorverifier.mode");
     }
@@ -25,8 +26,8 @@ final class ComparatorVerifierProperties {
     }
 
     public static Properties load() {
-        var properties = new Properties();
-        try (var inputStream = ExampleGenerator.class.getResourceAsStream("/comparator-verifier.properties")) {
+        Properties properties = new Properties();
+        try (InputStream inputStream = ExampleGenerator.class.getResourceAsStream("/comparator-verifier.properties")) {
             if (inputStream != null) {
                 properties.load(inputStream);
             }
