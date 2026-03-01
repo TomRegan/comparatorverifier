@@ -8,12 +8,12 @@ public class LineComparator implements Comparator<Line> {
 
     @Override
     public int compare(Line l1, Line l2) {
-        var p1 = l1.points().min(POINT_COMPARATOR);
-        var p2 = l2.points().min(POINT_COMPARATOR);
-        if (p1.isEmpty()) {
+        java.util.Optional<Point> p1 = l1.points().min(POINT_COMPARATOR);
+        java.util.Optional<Point> p2 = l2.points().min(POINT_COMPARATOR);
+        if (!p1.isPresent()) {
             return 1;
         }
-        if (p2.isEmpty()) {
+        if (!p2.isPresent()) {
             return -1;
         }
         return POINT_COMPARATOR.compare(p1.get(), p2.get());

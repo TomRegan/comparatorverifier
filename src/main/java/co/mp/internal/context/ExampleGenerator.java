@@ -3,6 +3,7 @@ package co.mp.internal.context;
 import static co.mp.internal.context.ExampleGenerator.Configuration.DEFAULT_EXAMPLE_COUNT;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.OptionalInt;
 
 import org.instancio.Instancio;
@@ -18,7 +19,7 @@ final class ExampleGenerator<T> {
     }
 
     static <T> ExampleGenerator<T> create(Class<T> cls) {
-        var propertyConfiguration = new PropertyConfiguration();
+        PropertyConfiguration propertyConfiguration = new PropertyConfiguration();
         return propertyConfiguration.isAvailable()
                 ? new ExampleGenerator<>(cls, propertyConfiguration)
                 : new ExampleGenerator<>(cls, new ImmutableConfiguration(DEFAULT_EXAMPLE_COUNT));
@@ -43,21 +44,87 @@ final class ExampleGenerator<T> {
         }
     }
 
-    record ImmutableConfiguration(int count) implements Configuration {
+    static final class ImmutableConfiguration implements Configuration {
+
+        private final int count;
+
+        ImmutableConfiguration(int count) {
+            this.count = count;
+        }
+
+        @Override
+        public int count() {
+            return count;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj == null || obj.getClass() != this.getClass()) {
+                return false;
+            }
+            ImmutableConfiguration that = (ImmutableConfiguration) obj;
+            return this.count == that.count;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(count);
+        }
+
+        @Override
+        public String toString() {
+            return "ImmutableConfiguration[" + "count=" + count + ']';
+        }
     }
 
-    record PropertyConfiguration(OptionalInt _count) implements Configuration {
+    static final class PropertyConfiguration implements Configuration {
 
-        PropertyConfiguration() {
-            this(ComparatorVerifierProperties.getInstance().examplesCount());
+        private final OptionalInt count;
+
+        PropertyConfiguration(OptionalInt count) {
+            this.count = count;
         }
 
-        public int count() {
-            return _count.isPresent() ? _count.getAsInt() : DEFAULT_EXAMPLE_COUNT;
+            PropertyConfiguration() {
+                this(ComparatorVerifierProperties.getInstance().examplesCount());
+            }
+
+            public int count() {
+                return count.isPresent() ? count.getAsInt() : DEFAULT_EXAMPLE_COUNT;
+            }
+
+            public boolean isAvailable() {
+                return count.isPresent();
+            }
+
+        public OptionalInt propertyConfigurationCount() {
+            return count;
         }
 
-        public boolean isAvailable() {
-            return _count.isPresent();
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj == null || obj.getClass() != this.getClass()) {
+                return false;
+            }
+            PropertyConfiguration that = (PropertyConfiguration) obj;
+            return Objects.equals(this.count, that.count);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(count);
+        }
+
+        @Override
+        public String toString() {
+            return "PropertyConfiguration[" +
+                "propertyConfigurationCount=" + count + ']';
         }
     }
 }
