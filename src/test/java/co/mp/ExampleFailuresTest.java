@@ -18,7 +18,7 @@ final class ExampleFailuresTest {
 
     @Test
     void demonstrates_failure_when_reflexivity_is_violated() {
-        var a = new Value.SimpleValue(1);
+        Value.SimpleValue a = new Value.SimpleValue(1);
         ComparatorVerifier.forComparator(Violation.ViolatesReflexivity.class)
                 .only(Warning.REFLEXIVITY)
                 .withExamples(a, a)
@@ -27,8 +27,8 @@ final class ExampleFailuresTest {
 
     @Test
     void demonstrates_failure_when_anti_symmetry_is_violated() {
-        var a = new Value.SimpleValue(1);
-        var b = new Value.SimpleValue(2);
+        Value.SimpleValue a = new Value.SimpleValue(1);
+        Value.SimpleValue b = new Value.SimpleValue(2);
         ComparatorVerifier.forComparator(Violation.ViolatesAntiSymmetry.class)
                 .only(Warning.ANTI_SYMMETRY)
                 .withExamples(a, b)
@@ -37,9 +37,9 @@ final class ExampleFailuresTest {
 
     @Test
     void demonstrates_failure_when_transitivity_is_violated() {
-        var a = new Value.SimpleValue(3);
-        var b = new Value.SimpleValue(5);
-        var c = new Value.SimpleValue(4);
+        Value.SimpleValue a = new Value.SimpleValue(3);
+        Value.SimpleValue b = new Value.SimpleValue(5);
+        Value.SimpleValue c = new Value.SimpleValue(4);
         ComparatorVerifier.forComparator(Violation.ViolatesTransitivity.class)
                 .withExamples(a, b, c)
                 .verify();
@@ -47,9 +47,9 @@ final class ExampleFailuresTest {
 
     @Test
     void demonstrates_failure_when_consistency_is_violated() {
-        var a = new ConsistentValue(5, 1);
-        var b = new ConsistentValue(5, 2);
-        var c = new ConsistentValue(6, 0);
+        ConsistentValue a = new ConsistentValue(5, 1);
+        ConsistentValue b = new ConsistentValue(5, 2);
+        ConsistentValue c = new ConsistentValue(6, 0);
         ComparatorVerifier.forComparator(ViolatesConsistency.class)
                 .withExamples(a, b, c)
                 .verify();
@@ -64,9 +64,9 @@ final class ExampleFailuresTest {
 
     @Test
     void demonstrates_failure_when_consistency_with_equals_is_violated() {
-        var a = new Value.SimpleValue(1);
-        var b = new Value.SimpleValue(1);
-        var c = new Value.SimpleValue(1);
+        Value.SimpleValue a = new Value.SimpleValue(1);
+        Value.SimpleValue b = new Value.SimpleValue(1);
+        Value.SimpleValue c = new Value.SimpleValue(1);
         ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
                 .withExamples(a, b, c)
                 .verify();

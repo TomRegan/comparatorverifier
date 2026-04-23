@@ -29,8 +29,8 @@ final class IsConsistent<T> implements ComparatorPredicate<T> {
     public Result test(List<T> examples) {
         // if we have too few examples, we cannot test, so notify the user
         if (examples.size() < 3) {
-            var enumName = Warning.class.getSimpleName();
-            var memberName = warning().name();
+            String enumName = Warning.class.getSimpleName();
+            String memberName = warning().name();
             throw new IllegalArgumentException("Too few examples (" + examples.size() + "/3) to test consistency! " +
                     "Disable this test using suppress(" + enumName + "." + memberName + ") or add more examples");
         }
@@ -39,8 +39,8 @@ final class IsConsistent<T> implements ComparatorPredicate<T> {
             for (T b : examples.subList(1, examples.size())) {
                 if (comparator.compare(a, b) == 0) {
                     for (T c : examples) {
-                        var cmpAC = Integer.signum(comparator.compare(a, c));
-                        var cmpBC = Integer.signum(comparator.compare(b, c));
+                        int cmpAC = Integer.signum(comparator.compare(a, c));
+                        int cmpBC = Integer.signum(comparator.compare(b, c));
                         if (cmpAC != cmpBC) {
                             return failure(
                                     comparator.getClass(),

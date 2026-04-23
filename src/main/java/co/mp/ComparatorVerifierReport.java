@@ -1,7 +1,6 @@
 package co.mp;
 
 import co.mp.internal.predicate.Result;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +15,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public final class ComparatorVerifierReport {
     private final List<Result> results = new ArrayList<>();
@@ -50,18 +50,18 @@ public final class ComparatorVerifierReport {
 
     @Override
     public String toString() {
-        var reportFormat = new MessageFormat(bundle.getString("report"));
+        MessageFormat reportFormat = new MessageFormat(bundle.getString("report"));
         return reportFormat.format(
                 new Object[]{
                         type().getName(),
-                        String.join("\n-> ", results().stream().map(this::resultToString).toList())
+                        String.join("\n-> ", results().stream().map(this::resultToString).collect(Collectors.toList()))
                 });
     }
 
     private String resultToString(Result result) {
-        var key = "warning." + result.warning().name().toLowerCase().replace('_', '.');
-        var resultFormat = new MessageFormat(bundle.getString(key));
-        var message = result.message();
+        String key = "warning." + result.warning().name().toLowerCase().replace('_', '.');
+        MessageFormat resultFormat = new MessageFormat(bundle.getString(key));
+        String message = result.message();
         return resultFormat.format(new Object[]{
                 message
         });

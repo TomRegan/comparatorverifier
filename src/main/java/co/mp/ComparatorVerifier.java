@@ -1,9 +1,8 @@
 package co.mp;
 
 import co.mp.internal.reflection.Types;
-import org.instancio.Instancio;
-
 import java.util.Comparator;
+import org.instancio.Instancio;
 
 /**
  * {@code ComparatorVerifier} is intended for use in tests to validate the contract for Comparator is met. <p>
@@ -43,7 +42,7 @@ public final class ComparatorVerifier {
      */
     @SuppressWarnings("unchecked")
     public static <T> ComparatorVerifierApi<T> forComparator(Comparator<T> comparator) {
-        var cls = Types.getComparatorType((Class<? extends Comparator<T>>) comparator.getClass());
+        Class<T> cls = Types.getComparatorType((Class<? extends Comparator<T>>) comparator.getClass());
         return ComparatorVerifierApi.create(comparator, cls);
     }
 
