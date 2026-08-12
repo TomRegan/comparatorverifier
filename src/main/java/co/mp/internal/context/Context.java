@@ -1,10 +1,5 @@
 package co.mp.internal.context;
 
-import co.mp.Warning;
-import co.mp.exception.ComparatorVerificationException;
-import co.mp.internal.context.ExampleGenerator.Configuration;
-import co.mp.internal.predicate.ComparatorPredicate;
-
 import static co.mp.ComparatorVerifierReport.toReport;
 import static co.mp.internal.predicate.Predicates.isAntiSymmetric;
 import static co.mp.internal.predicate.Predicates.isConsistent;
@@ -13,11 +8,18 @@ import static co.mp.internal.predicate.Predicates.isReflexive;
 import static co.mp.internal.predicate.Predicates.isSerializable;
 import static co.mp.internal.predicate.Predicates.isTransitive;
 
+import co.mp.Warning;
+import co.mp.exception.ComparatorVerificationException;
+import co.mp.internal.context.ExampleGenerator.Configuration;
+import co.mp.internal.predicate.ComparatorPredicate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Context<T> {
@@ -35,43 +37,53 @@ public final class Context<T> {
     }
 
     public static <T> Context<T> create(Comparator<T> comparator, Class<T> cls) {
-        Context<T> context = new Context<>(comparator, cls, List.of(), List.of());
-        var mode = ComparatorVerifierProperties.getInstance()
+        Context<T> context = new Context<>(comparator, cls, Collections.emptyList(), Collections.emptyList());
+        VerificationMode mode = ComparatorVerifierProperties.getInstance()
                 .mode()
                 .orElse(VerificationMode.DEFAULT);
-        switch (mode) {
-            case PERMISSIVE -> context.asPermissiveContext();
-            case STRICT -> context.asStrictContext();
-            default -> context.asDefaultContext();
+
+        if (mode == VerificationMode.PERMISSIVE) {
+            context.asPermissiveContext();
+        } else if (mode == VerificationMode.STRICT) {
+            context.asStrictContext();
+        } else {
+            context.asDefaultContext();
         }
+
         return context;
     }
 
     public void asDefaultContext() {
-        this.predicates = List.of(
-                isConsistentWithEquals(comparator),
-                isReflexive(comparator),
-                isAntiSymmetric(comparator),
-                isTransitive(comparator),
-                isConsistent(comparator));
+        ArrayList<ComparatorPredicate<T>> mutablePredicateList = new ArrayList<>();
+        mutablePredicateList.add(isConsistentWithEquals(comparator));
+        mutablePredicateList.add(isReflexive(comparator));
+        mutablePredicateList.add(isAntiSymmetric(comparator));
+        mutablePredicateList.add(isTransitive(comparator));
+        mutablePredicateList.add(isConsistent(comparator));
+
+        this.predicates = Collections.unmodifiableList(mutablePredicateList);
     }
 
     public void asStrictContext() {
-        this.predicates = List.of(
-                isConsistentWithEquals(comparator),
-                isReflexive(comparator),
-                isAntiSymmetric(comparator),
-                isTransitive(comparator),
-                isConsistent(comparator),
-                isSerializable(comparator));
+        ArrayList<ComparatorPredicate<T>> mutablePredicateList = new ArrayList<>();
+        mutablePredicateList.add(isConsistentWithEquals(comparator));
+        mutablePredicateList.add(isReflexive(comparator));
+        mutablePredicateList.add(isAntiSymmetric(comparator));
+        mutablePredicateList.add(isTransitive(comparator));
+        mutablePredicateList.add(isConsistent(comparator));
+        mutablePredicateList.add(isSerializable(comparator));
+
+        this.predicates = Collections.unmodifiableList(mutablePredicateList);
     }
 
     public void asPermissiveContext() {
-        this.predicates = List.of(
-                isReflexive(comparator),
-                isAntiSymmetric(comparator),
-                isTransitive(comparator),
-                isConsistent(comparator));
+        ArrayList<ComparatorPredicate<T>> mutablePredicateList = new ArrayList<>();
+        mutablePredicateList.add(isReflexive(comparator));
+        mutablePredicateList.add(isAntiSymmetric(comparator));
+        mutablePredicateList.add(isTransitive(comparator));
+        mutablePredicateList.add(isConsistent(comparator));
+
+        this.predicates = Collections.unmodifiableList(mutablePredicateList);
     }
 
     public void asCustomContext(List<Warning> suppressedWarnings) {
@@ -83,7 +95,7 @@ public final class Context<T> {
                         isConsistent(comparator),
                         isSerializable(comparator))
                 .filter(predicate -> !suppressedWarnings.contains(predicate.warning()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void examples(List<T> examples) {
@@ -96,7 +108,7 @@ public final class Context<T> {
 
     @SafeVarargs
     public final void examples(T first, T second, T... rest) {
-        var examples = new LinkedList<T>();
+        List<T> examples = new LinkedList<>();
         examples.add(Objects.requireNonNull(first));
         examples.add(Objects.requireNonNull(second));
         examples.addAll(Arrays.asList(rest));
@@ -107,7 +119,7 @@ public final class Context<T> {
         if (examples.isEmpty()) {
             examples.addAll(exampleGenerator.generate());
         }
-        var report = predicates.stream()
+        co.mp.ComparatorVerifierReport report = predicates.stream()
                 .map(predicate -> predicate.test(examples))
                 .collect(toReport());
         if (report.hasFailures()) {

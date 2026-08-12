@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class LineComparatorTest {
     @Test
     void it_should_fail_for_anti_symmetry_violation() {
-        var error = assertThrows(
+        ComparatorVerificationException error = assertThrows(
                 ComparatorVerificationException.class,
                 () -> ComparatorVerifier.forComparator(LineComparator.class).verify());
         assertTrue(error.report().hasFailureReason(Warning.ANTI_SYMMETRY));

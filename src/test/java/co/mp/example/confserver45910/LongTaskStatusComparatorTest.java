@@ -29,7 +29,7 @@ final class LongTaskStatusComparatorTest {
      */
     @Test
     void tim_sort_should_fail_due_to_an_anti_symmetry_violation() {
-        var list = new ArrayList<LongTaskStatus>();
+        ArrayList<LongTaskStatus> list = new ArrayList<LongTaskStatus>();
         // this is a common brute force approach, which depends on the fact that
         // TimSort will throw an IAE when it tries to merge. The merge after a
         // minimum of 32 elements, so the brute force algorithm uses at least
@@ -46,9 +46,9 @@ final class LongTaskStatusComparatorTest {
 
     @Test
     void it_should_detect_an_anti_symmetry_violation() {
-        var a = new LongTaskStatus(null);
-        var b = new LongTaskStatus(null);
-        var error = assertThrows(ComparatorVerificationException.class,
+        LongTaskStatus a = new LongTaskStatus(null);
+        LongTaskStatus b = new LongTaskStatus(null);
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class,
                 () -> ComparatorVerifier.forComparator(LongTaskStatusComparator.class)
                         .only(Warning.ANTI_SYMMETRY)
                         .withExamples(a, b)
