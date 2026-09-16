@@ -14,8 +14,8 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_detect_when_reflexivity_is_violated() {
-        var a = new SimpleValue(1);
-        var error = assertThrows(ComparatorVerificationException.class, () ->
+        SimpleValue a = new SimpleValue(1);
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class, () ->
                 ComparatorVerifier.forComparator(ViolatesReflexivity.class)
                         .only(Warning.REFLEXIVITY)
                         .withExamples(a, a)
@@ -25,9 +25,9 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_detect_when_anti_symmetry_is_violated() {
-        var a = new SimpleValue(1);
-        var b = new SimpleValue(2);
-        var error = assertThrows(ComparatorVerificationException.class, () ->
+        SimpleValue a = new SimpleValue(1);
+        SimpleValue b = new SimpleValue(2);
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class, () ->
                 ComparatorVerifier.forComparator(ViolatesAntiSymmetry.class)
                         .only(Warning.ANTI_SYMMETRY)
                         .withExamples(a, b)
@@ -38,11 +38,11 @@ final class ComparatorVerifierTest {
     @Test
     void it_should_detect_when_transitivity_is_violated() {
         // use carefully chosen values that produce a cyclic ordering, as follows
-        var a = new SimpleValue(3);  //        3 % 3 = 6 % 3 = 0   -> A(3%3)0, B(5+1%3)0 => 1
-        var b = new SimpleValue(5);  //        5 % 3 = 5 % 3 = 2   -> B(5%3)2, C(4+1%3)2 => 1
-        var c = new SimpleValue(4);  // (3 % 3 = 0) != (5 % 3 = 2) -> A(3%3)0, C(4+1%3)2 => -1
+        SimpleValue a = new SimpleValue(3);  //        3 % 3 = 6 % 3 = 0   -> A(3%3)0, B(5+1%3)0 => 1
+        SimpleValue b = new SimpleValue(5);  //        5 % 3 = 5 % 3 = 2   -> B(5%3)2, C(4+1%3)2 => 1
+        SimpleValue c = new SimpleValue(4);  // (3 % 3 = 0) != (5 % 3 = 2) -> A(3%3)0, C(4+1%3)2 => -1
         // see comments in ViolatesTransitivity
-        var error = assertThrows(ComparatorVerificationException.class, () ->
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class, () ->
                 ComparatorVerifier.forComparator(ViolatesTransitivity.class)
                         .withExamples(a, b, c)
                         .verify());
@@ -52,10 +52,10 @@ final class ComparatorVerifierTest {
     @Test
     void it_should_detect_when_consistency_is_violated() {
         // Ensure that the comparator's statefulness leads to inconsistency when comparing against a common third value.
-        var a = new ConsistentValue(5, 1);
-        var b = new ConsistentValue(5, 2); // a == b, 0 == 0
-        var c = new ConsistentValue(6, 0); // a == c, 6 == 6; b != c, 7 != 6
-        var error = assertThrows(ComparatorVerificationException.class, () ->
+        ConsistentValue a = new ConsistentValue(5, 1);
+        ConsistentValue b = new ConsistentValue(5, 2); // a == b, 0 == 0
+        ConsistentValue c = new ConsistentValue(6, 0); // a == c, 6 == 6; b != c, 7 != 6
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class, () ->
                 ComparatorVerifier.forComparator(ViolatesConsistency.class)
                         .withExamples(a, b, c)
                         .verify());
@@ -64,7 +64,7 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_detect_when_comparator_is_not_serializable() {
-        var error = assertThrows(ComparatorVerificationException.class,
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class,
                 () -> ComparatorVerifier.forComparator(ViolatesSerializable.class)
                         .strict()
                         .verify());
@@ -73,10 +73,10 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_detect_when_consistency_with_equals_is_violated() {
-        var a = new SimpleValue(1);
-        var b = new SimpleValue(1);
-        var c = new SimpleValue(1);
-        var error = assertThrows(ComparatorVerificationException.class, () ->
+        SimpleValue a = new SimpleValue(1);
+        SimpleValue b = new SimpleValue(1);
+        SimpleValue c = new SimpleValue(1);
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class, () ->
                 ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
                         .withExamples(a, b, c)
                         .verify());
@@ -85,7 +85,7 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_allow_consistency_with_equals_to_be_violated_when_set_to_permissive() {
-        var error = assertThrows(ComparatorVerificationException.class,
+        ComparatorVerificationException error = assertThrows(ComparatorVerificationException.class,
                 () -> ComparatorVerifier.forComparator(ViolatesConsistentWithEquals.class)
                         .permissive()
                         .verify());
@@ -94,7 +94,7 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_accept_an_instance_of_a_comparator() {
-        var integerComparator = new Comparator<Integer>() {
+        Comparator<Integer> integerComparator = new Comparator<Integer>() {
 
             @Override
             public int compare(Integer o1, Integer o2) {
@@ -112,11 +112,11 @@ final class ComparatorVerifierTest {
 
     @Test
     void it_should_give_feedback_when_there_are_too_few_examples_to_test_with() {
-        var error = assertThrows(IllegalArgumentException.class,
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
                 () -> ComparatorVerifier.forComparator(Integer::compare, Integer.class)
                         .withGeneratedExamples(2)
                         .verify());
-        var expected = "Too few examples (2/3) to test transitivity! Disable this test using suppress(Warning.TRANSITIVITY) " +
+        String expected = "Too few examples (2/3) to test transitivity! Disable this test using suppress(Warning.TRANSITIVITY) " +
                 "or add more examples";
         assertEquals(expected, error.getMessage());
     }

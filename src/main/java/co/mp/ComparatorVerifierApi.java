@@ -1,12 +1,12 @@
 package co.mp;
 
 import co.mp.internal.context.Context;
-import static java.util.function.Predicate.not;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Provides a fluent API to verify the correctness of a {@link java.util.Comparator} implementation. <p>
@@ -103,10 +103,10 @@ public final class ComparatorVerifierApi<T> {
      * @see Warning
      */
     public ComparatorVerifierApi<T> suppress(Warning first, Warning... rest) {
-        var suppressedWarnings = new ArrayList<Warning>();
+        ArrayList<Warning> suppressedWarnings = new ArrayList<>();
         suppressedWarnings.add(Objects.requireNonNull(first));
         suppressedWarnings.addAll(Arrays.asList(rest));
-        context.asCustomContext(suppressedWarnings);
+        context.asCustomContext(Collections.unmodifiableList(suppressedWarnings));
         return this;
     }
 
@@ -120,12 +120,13 @@ public final class ComparatorVerifierApi<T> {
      * @see Warning
      */
     public ComparatorVerifierApi<T> only(Warning first, Warning... rest) {
-        var includedWarnings = new ArrayList<Warning>();
+        ArrayList<Warning> includedWarnings = new ArrayList<>();
         includedWarnings.add(Objects.requireNonNull(first));
         includedWarnings.addAll(Arrays.asList(rest));
         context.asCustomContext(Arrays.stream(Warning.values())
-                .filter(not(includedWarnings::contains))
-                .toList());
+                .filter(o -> !includedWarnings.contains(o))
+                .collect(Collectors.toList())
+        );
         return this;
     }
 

@@ -30,8 +30,8 @@ final class IsTransitive<T> implements ComparatorPredicate<T> {
     public Result test(List<T> examples) {
         // if we have too few examples, we cannot test, so notify the user
         if (examples.size() < 3) {
-            var enumName = Warning.class.getSimpleName();
-            var memberName = Warning.TRANSITIVITY.name();
+            String enumName = Warning.class.getSimpleName();
+            String memberName = Warning.TRANSITIVITY.name();
             throw new IllegalArgumentException("Too few examples (" + examples.size() + "/3) to test transitivity! " +
                     "Disable this test using suppress(" + enumName + "." + memberName + ") or add more examples");
         }
